@@ -47,7 +47,7 @@ export class HeroSectionComponent implements OnInit {
     linkedin: 'https://www.linkedin.com/in/alejandro-villa-villavicencio/',
 
     // Perfil de GitHub
-    github: 'https://github.com/DemWolfXZ'
+    github: 'https://github.com/alejandro-villa-dev'
   };
 
   /** Controla si las animaciones iniciales se consideran cargadas */

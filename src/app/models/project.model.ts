@@ -315,7 +315,7 @@ export const PERSONAL_PROJECTS: Project[] = [
       { name: 'Android (Java)', category: 'mobile', color: '#3ddc84' }
     ],
     links: {
-      repository: 'https://github.com/DemWolfXZ/carrito'
+      repository: 'https://github.com/alejandro-villa-dev/carrito'
     },
     images: {
       thumbnail: 'assets/images/carrito control.jpeg',
@@ -514,8 +514,8 @@ export const CREATIVE_PROJECTS: Project[] = [
       { name: 'Bootstrap', version: '5.3', category: 'frontend', color: '#7952b3' }
     ],
     links: {
-      live: 'https://demwolfxz.github.io/DemWolfIAMusic/',
-      repository: 'https://github.com/DemWolfXZ/DemWolfIAMusic'
+      live: 'https://alejandro-villa-dev.github.io/DemWolfIAMusic/',
+      repository: 'https://github.com/alejandro-villa-dev/DemWolfIAMusic'
     },
     images: {
       thumbnail: 'assets/images/DemWolf.jpg',

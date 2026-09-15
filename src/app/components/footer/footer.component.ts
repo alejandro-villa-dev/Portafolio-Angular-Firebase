@@ -33,7 +33,7 @@ export class FooterComponent implements OnInit {
     // Sin ubicación específica: búsqueda de trabajo 100% remoto
     location: 'Remoto · LATAM',
     linkedin: 'https://www.linkedin.com/in/alejandro-villa-villavicencio/',
-    github: 'https://github.com/DemWolfXZ'
+    github: 'https://github.com/alejandro-villa-dev'
   };
 
   // Enlaces de navegación del sitio
