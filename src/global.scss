@@ -166,9 +166,44 @@ ion-content.main-content {
  * Optimizaciones adicionales para móvil y desktop
  */
 
-// Suavizar transiciones globales
-* {
-  transition: all 0.2s ease;
+// Transición suave y profesional al cambiar entre tema claro/oscuro (ThemeService).
+// IMPORTANTE: antes esto era "transition: all 0.2s ease" en el selector universal,
+// lo que animaba TAMBIÉN transform/width/height/opacity de todo lo demás (hovers,
+// aperturas de menú, animaciones de scroll, etc.), generando movimientos raros o
+// dobles. Ahora solo se anima lo relacionado a color, y con una curva más suave.
+// Los componentes que ya definen su propia transición (hover de botones, cards,
+// etc.) siguen funcionando igual: su selector de clase tiene más especificidad
+// que el universal y la sobrescribe sin conflicto.
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow, fill, stroke;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Si el usuario prefiere menos movimiento, respetamos esa preferencia también
+// para el cambio de tema (no solo para animaciones de scroll/entrada).
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/**
+ * TRANSICIÓN DE TEMA CON VIEW TRANSITIONS API (theme.service.ts)
+ * ================================================================
+ * Personaliza el cross-fade nativo que dispara `document.startViewTransition()`
+ * al cambiar de tema, para que se sienta pulido en vez del fundido genérico por
+ * defecto del navegador. Si el navegador no soporta la API, estas reglas
+ * simplemente no se activan nunca (no rompen nada).
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // Mejorar rendimiento en dispositivos móviles

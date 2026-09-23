@@ -54,9 +54,8 @@ export class ThemeService {
    * Cambia entre tema claro y oscuro
    */
   toggleTheme(): void {
-    this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-    this.applyTheme(this.currentTheme);
-    this.saveTheme(this.currentTheme);
+    const nextTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.switchTheme(nextTheme);
   }
 
   /**
@@ -64,9 +63,36 @@ export class ThemeService {
    * @param theme - Tema a aplicar ('light' | 'dark')
    */
   setTheme(theme: 'light' | 'dark'): void {
-    this.currentTheme = theme;
-    this.applyTheme(theme);
-    this.saveTheme(theme);
+    this.switchTheme(theme);
+  }
+
+  /**
+   * Aplica y guarda un tema, usando la View Transitions API del navegador cuando
+   * está disponible para un cambio más elegante (un "barrido" suave en vez de un
+   * corte abrupto de colores). Si el navegador no la soporta (ej. Firefox/Safari
+   * en versiones antiguas), cae de forma segura al cambio instantáneo de clase,
+   * que igual se ve suave gracias a la transición de color definida en global.scss.
+   * @param theme - Tema a aplicar y persistir
+   */
+  private switchTheme(theme: 'light' | 'dark'): void {
+    const applyAndSave = () => {
+      this.currentTheme = theme;
+      this.applyTheme(theme);
+      this.saveTheme(theme);
+    };
+
+    const doc = this.document as Document & {
+      startViewTransition?: (callback: () => void) => void;
+    };
+
+    // Respetar la preferencia de "menos movimiento" del usuario también aquí
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion && typeof doc.startViewTransition === 'function') {
+      doc.startViewTransition(applyAndSave);
+    } else {
+      applyAndSave();
+    }
   }
 
   /**

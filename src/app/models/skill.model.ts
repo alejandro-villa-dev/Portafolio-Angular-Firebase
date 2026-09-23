@@ -3,7 +3,8 @@
  *
  * DESCRIPCIÓN:
  * Modelo de datos para las competencias técnicas de Alejandro Villa.
- * Alineado con su perfil real: Analista TI / Soporte N1-N2 y Desarrollo Frontend Jr.
+ * Alineado con su perfil real: Ingeniero Informático con 3 áreas (Soporte de Aplicaciones/TI,
+ * Desarrollo y Datos), sin inflar años ni agregar tecnologías que no usa de verdad.
  * Sin inflar años ni agregar tecnologías que no usa de verdad.
  */
 
@@ -62,7 +63,7 @@ export type SkillLevel = 'advanced' | 'intermediate';
 
 /**
  * Competencias de Alejandro Villa
- * Alineadas con experiencia real (TI, QA, Frontend Jr).
+ * Alineadas con experiencia real (Soporte de Aplicaciones/TI, Desarrollo, Datos).
  */
 export const ALEJANDRO_SKILLS: Skill[] = [
   // ========================================
@@ -112,7 +113,7 @@ export const ALEJANDRO_SKILLS: Skill[] = [
     name: 'Soporte Técnico',
     category: 'infrastructure',
     level: 'advanced',
-    yearsOfExperience: 4,
+    yearsOfExperience: 5,
     description: 'Gestión de tickets, atención a usuarios, diagnóstico remoto y resolución de incidentes N1–N2, cumpliendo SLA y estándares de servicio.',
     projectsUsed: [],
     icon: 'help-circle-outline',
@@ -195,12 +196,38 @@ export const ALEJANDRO_SKILLS: Skill[] = [
     category: 'analysis',
     level: 'intermediate',
     yearsOfExperience: 2,
-    description: 'Procesamiento básico de datos operacionales para apoyar decisiones, reportes y revisión de indicadores.',
+    description: 'Detección, validación y limpieza de datos (incluye un caso real con más de 30.000 registros y cerca de 500 duplicados detectados vía SQL/Python) para apoyar decisiones, reportes y revisión de indicadores (KPI/KRI).',
     projectsUsed: [],
     icon: 'analytics-outline',
     color: '#74B9FF',
     featured: true,
     displayOrder: 4
+  },
+  {
+    id: 'excel-avanzado',
+    name: 'Excel Avanzado',
+    category: 'analysis',
+    level: 'advanced',
+    yearsOfExperience: 2,
+    description: 'Tablas dinámicas, Power Query, BUSCARV/BUSCARX, ÍNDICE+COINCIDIR, funciones condicionales y de fecha, filtros y gráficos para limpieza y análisis de datos.',
+    projectsUsed: [],
+    icon: 'grid-outline',
+    color: '#217346',
+    featured: true,
+    displayOrder: 5
+  },
+  {
+    id: 'business-intelligence',
+    name: 'Inteligencia de Negocios (fundamentos de BI)',
+    category: 'analysis',
+    level: 'intermediate',
+    yearsOfExperience: 2,
+    description: 'Fundamentos de inteligencia de negocios aplicados a indicadores (KPI/KRI) y modelos de datos, en el contexto de procesos de gestión de procesos de negocio y análisis de estado actual/futuro.',
+    projectsUsed: [],
+    icon: 'bar-chart-outline',
+    color: '#00B894',
+    featured: false,
+    displayOrder: 6
   },
   {
     id: 'qa-functional-testing',
@@ -213,7 +240,7 @@ export const ALEJANDRO_SKILLS: Skill[] = [
     icon: 'bug-outline',
     color: '#FF7675',
     featured: true,
-    displayOrder: 5
+    displayOrder: 7
   },
 
   // ========================================
@@ -444,7 +471,7 @@ export const ALEJANDRO_SKILLS: Skill[] = [
     name: 'Postman',
     category: 'tools',
     level: 'intermediate',
-    yearsOfExperience: 2,
+    yearsOfExperience: 1,
     description: 'Pruebas de APIs REST, creación de colecciones, validación de respuestas y soporte a QA técnico.',
     projectsUsed: [],
     icon: 'cloud-outline',
@@ -496,7 +523,7 @@ export const ALEJANDRO_SKILLS: Skill[] = [
     name: 'Herramientas de Soporte Remoto',
     category: 'tools',
     level: 'advanced',
-    yearsOfExperience: 4,
+    yearsOfExperience: 5,
     description: 'Toma de control remoto de equipos para diagnóstico y resolución de incidentes con AnyDesk, TeamViewer y Dameware Mini Remote Control.',
     projectsUsed: [],
     icon: 'desktop-outline',
@@ -529,19 +556,6 @@ export const ALEJANDRO_SKILLS: Skill[] = [
     color: '#D83B01',
     featured: false,
     displayOrder: 8
-  },
-  {
-    id: 'photoshop',
-    name: 'Adobe Photoshop',
-    category: 'tools',
-    level: 'intermediate',
-    yearsOfExperience: 5,
-    description: 'Edición básica de imágenes, optimización de gráficos para web y apoyo en diseño visual simple.',
-    projectsUsed: [],
-    icon: 'image-outline',
-    color: '#31A8FF',
-    featured: false,
-    displayOrder: 9
   }
 ];
 
@@ -576,6 +590,8 @@ export function getTotalYearsInCategory(category: SkillCategory): number {
 
 /**
  * Helper para obtener skills más importantes para el HOME
+ * Representa las 3 áreas del posicionamiento actual (Soporte, Desarrollo, Datos)
+ * con una selección equilibrada, sin llenar el home de tecnologías.
  */
 export function getHomeDisplaySkills(): Skill[] {
   // Retorna las skills más relevantes para mostrar en el home
@@ -583,18 +599,22 @@ export function getHomeDisplaySkills(): Skill[] {
     .filter(skill =>
       skill.featured &&
       [
+        // Soporte de Aplicaciones / TI
+        'active-directory',
+        'glpi',
+        'technical-support',
+        // Desarrollo
         'angular',
         'ionic',
         'firebase',
+        // Datos
         'python',
         'sql',
-        'active-directory',
-        'glpi',
-        'hardware-repair'
+        'excel-avanzado'
       ].includes(skill.id)
     )
     .sort((a, b) => b.yearsOfExperience - a.yearsOfExperience)
-    .slice(0, 8); // Máximo 8 para home
+    .slice(0, 9); // Máximo 9 para home (3 por cada área)
 }
 
 /**
@@ -611,8 +631,8 @@ export const SKILL_CATEGORIES = [
   },
   {
     id: 'analysis' as SkillCategory,
-    name: 'Análisis de Sistemas y QA',
-    description: 'INTERMEDIO - análisis funcional, procesos y pruebas de software.',
+    name: 'Análisis de Sistemas, QA y Datos',
+    description: 'INTERMEDIO/AVANZADO - análisis funcional, procesos, pruebas de software y análisis de datos con SQL, Python y Excel.',
     icon: 'analytics-outline',
     color: '#74B9FF',
     featured: true

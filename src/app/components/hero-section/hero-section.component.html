@@ -66,40 +66,6 @@
           <!-- Botones de acción principales -->
           <div class="hero-actions">
 
-            <!-- Selector de CV: dos perfiles vigentes, cada uno accesible por igual -->
-            <div class="cv-cards">
-              <div class="cv-card" *ngFor="let cv of cvFiles">
-                <div class="cv-card-icon">
-                  <ion-icon name="document-text-outline"></ion-icon>
-                </div>
-                <div class="cv-card-info">
-                  <span class="cv-card-name">{{ cv.name }}</span>
-                  <span class="cv-card-desc">{{ cv.description }}</span>
-                </div>
-                <div class="cv-card-actions">
-                  <ion-button
-                    fill="solid"
-                    size="small"
-                    class="cv-card-button primary"
-                    [attr.aria-label]="'Descargar ' + cv.name"
-                    (click)="downloadCvFile(cv.id)"
-                  >
-                    <ion-icon name="download" slot="icon-only"></ion-icon>
-                  </ion-button>
-
-                  <ion-button
-                    fill="outline"
-                    size="small"
-                    class="cv-card-button secondary"
-                    [attr.aria-label]="'Ver ' + cv.name"
-                    (click)="viewCvFile(cv.id)"
-                  >
-                    <ion-icon name="eye" slot="icon-only"></ion-icon>
-                  </ion-button>
-                </div>
-              </div>
-            </div>
-
             <!-- Acciones secundarias -->
             <div class="secondary-actions">
               <ion-button
@@ -146,7 +112,7 @@
             <!-- Foto profesional -->
             <img
               src="assets/images/placeholder.jpg"
-              alt="Alejandro Villa Villavicencio - Analista TI &amp; Soporte N1/N2 - Desarrollador Frontend Jr"
+              alt="Alejandro Villa Villavicencio - Ingeniero Informático - Soporte de Aplicaciones, Desarrollo y Datos"
               class="profile-image"
               loading="eager"
             />
@@ -161,7 +127,7 @@
             <!-- Badge de experiencia -->
             <div class="experience-badge">
               <div class="badge-content">
-                <span class="badge-number">4+</span>
+                <span class="badge-number">5+</span>
                 <span class="badge-text">años de experiencia profesional</span>
               </div>
             </div>
@@ -169,10 +135,57 @@
         </div>
       </div>
 
+      <!-- CV según área profesional: 3 perfiles visibles a la vez, nunca ocultos en un dropdown -->
+      <section class="cv-profiles-section" aria-labelledby="cv-profiles-title">
+        <h3 id="cv-profiles-title" class="cv-profiles-title">CV según área profesional</h3>
+        <p class="cv-profiles-subtitle">
+          Tres CV distintos, optimizados cada uno para un tipo de vacante distinto.
+        </p>
+
+        <div class="cv-profiles-grid">
+          <article class="cv-profile-card" *ngFor="let cv of cvProfiles">
+            <div class="cv-profile-header">
+              <ion-icon name="document-text-outline" class="cv-profile-icon"></ion-icon>
+              <h4 class="cv-profile-name">{{ cv.name }}</h4>
+            </div>
+
+            <p class="cv-profile-description">{{ cv.description }}</p>
+
+            <ul class="cv-profile-badges" *ngIf="cv.badges.length">
+              <li *ngFor="let badge of cv.badges" class="cv-profile-badge">
+                <ion-icon [name]="badge.icon" class="cv-profile-badge-icon"></ion-icon>
+                {{ badge.label }}
+              </li>
+            </ul>
+
+            <div class="cv-profile-actions">
+              <ion-button
+                expand="block"
+                class="cv-profile-download"
+                [attr.aria-label]="'Descargar ' + cv.name"
+                (click)="downloadCvFile(cv.id)"
+              >
+                <ion-icon name="download" slot="start"></ion-icon>
+                Descargar {{ cv.name }}
+              </ion-button>
+
+              <button
+                type="button"
+                class="cv-profile-secondary-link"
+                [routerLink]="cv.secondaryRoute"
+              >
+                {{ cv.secondaryLabel }}
+                <ion-icon name="arrow-forward"></ion-icon>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <!-- Estadísticas rápidas -->
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-number">4+</div>
+          <div class="stat-number">5+</div>
           <div class="stat-label">Años de experiencia profesional</div>
         </div>
         <div class="stat-item">

@@ -23,8 +23,8 @@ export class FooterComponent implements OnInit {
   // Información personal básica mostrada en el footer
   public personalInfo = {
     name: 'Alejandro Villa Villavicencio',
-    // Alineado con el hero y el CV
-    title: 'Analista TI & Soporte N1/N2 · Desarrollador Frontend Jr',
+    // Alineado con el hero y los 3 CV (Analista TI, Desarrollador Jr, Analista de Datos)
+    title: 'Ingeniero Informático | Soporte de Aplicaciones · Desarrollo · Datos',
     email: 'alejandro.villa91@gmail.com',
     // Número mexicano: es el que usa para llamadas
     phone: '+52 4925599064',
@@ -47,8 +47,8 @@ export class FooterComponent implements OnInit {
   ];
 
   // Enlaces rápidos (acciones directas desde el footer)
-  // Hay dos CVs vigentes (Analista TI y Desarrollador Jr): se ofrecen ambos por
-  // igual en vez de un "Descargar CV" genérico que obligue a elegir en un menú aparte.
+  // Hay tres CVs vigentes (Analista TI, Desarrollador Jr y Analista de Datos): se ofrecen
+  // los tres por igual en vez de un "Descargar CV" genérico que obligue a elegir en un menú aparte.
   public quickLinks = [
     {
       label: 'CV Analista TI',
@@ -58,6 +58,11 @@ export class FooterComponent implements OnInit {
     {
       label: 'CV Desarrollador Jr',
       action: () => this.downloadCvFile('cv-desarrollador-jr'),
+      icon: 'download'
+    },
+    {
+      label: 'CV Analista de Datos',
+      action: () => this.downloadCvFile('cv-analista-datos'),
       icon: 'download'
     },
     {

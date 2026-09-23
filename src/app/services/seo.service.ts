@@ -5,9 +5,13 @@
  * Servicio para optimización SEO del portafolio de Alejandro Villa.
  * Maneja meta tags, títulos, descripciones y structured data para
  * mejorar la visibilidad en motores de búsqueda y redes sociales.
- * Optimizado para búsquedas relacionadas con "Analista TI", "Soporte N1/N2" e ITSM.
+ * Optimizado para las 3 áreas del posicionamiento actual: Soporte de Aplicaciones/TI,
+ * Desarrollo (Angular/Ionic/Firebase) y Datos (SQL/Python/Excel).
  * NOTA: sin geo.region/geo.placename ni dirección en structured data a propósito
  * (búsqueda de trabajo 100% remoto, sin ubicación/país indexado).
+ * IMPORTANTE: este servicio se inyecta y usa desde AppComponent (ver app.component.ts),
+ * que llama a updateMetaForSection() en cada NavigationEnd y a addStructuredData() una
+ * sola vez al iniciar.
  */
 
 import { Injectable } from '@angular/core';
@@ -32,27 +36,32 @@ export class SeoService {
 
   // Configuración base del sitio
   private readonly SITE_CONFIG = {
-    siteName: 'Alejandro Villa - Analista TI & Soporte N1/N2',
+    siteName: 'Alejandro Villa - Ingeniero Informático',
     baseUrl: 'https://portafolio-alejandro-villa.web.app',
     defaultImage: 'assets/images/placeholder.svg',
     author: 'Alejandro Villa Villavicencio',
     locale: 'es'
   };
 
-  // Keywords principales para SEO (orientado a Soporte TI/ITSM + Desarrollo Frontend Jr)
+  // Keywords principales para SEO (orientado a las 3 áreas: Soporte, Desarrollo y Datos)
   private readonly PRIMARY_KEYWORDS = [
+    'Ingeniero Informático',
     'Analista TI',
     'Soporte TI N1/N2',
+    'Soporte de Aplicaciones',
     'ITSM',
     'GLPI',
     'ServiceNow',
     'Active Directory',
-    'Ingeniero Informático',
-    'Soporte técnico e infraestructura',
     'Angular Junior',
     'Ionic',
     'Firebase',
-    'Python Django',
+    'Python',
+    'Django',
+    'Análisis de Datos',
+    'SQL',
+    'Excel Avanzado',
+    'Business Intelligence',
     'Alejandro Villa',
     'Trabajo remoto TI'
   ];
@@ -103,9 +112,9 @@ export class SeoService {
    */
   setHomeMeta(): void {
     this.setMetaTags({
-      title: 'Alejandro Villa - Analista TI & Soporte N1/N2 | Ingeniero Informático',
+      title: 'Alejandro Villa | Ingeniero Informático · Soporte de Aplicaciones · Desarrollo · Datos',
       description:
-        'Analista TI & Soporte N1/N2 con experiencia en ITSM (GLPI/ServiceNow), Active Directory e infraestructura, más desarrollo frontend con Angular, Ionic y bases de Python/Django. Disponible 100% remoto.',
+        'Portafolio profesional de Alejandro Villa, Ingeniero Informático con experiencia en soporte TI N1/N2, soporte de aplicaciones, desarrollo con Angular, Ionic y Firebase, y análisis de datos con SQL, Python y Excel.',
       keywords: this.getDefaultKeywords(),
       type: 'profile'
     });
@@ -116,11 +125,11 @@ export class SeoService {
    */
   setAboutMeta(): void {
     this.setMetaTags({
-      title: 'Sobre Mí - Alejandro Villa | Analista TI & Soporte N1/N2',
+      title: 'Sobre Mí - Alejandro Villa | Ingeniero Informático',
       description:
-        'Ingeniero Informático que comenzó en soporte técnico y hoy combina soporte TI N1/N2 con desarrollo frontend. Experiencia real con usuarios, documentación, análisis de incidencias y formación constante.',
+        'Ingeniero Informático que comenzó en soporte técnico y hoy combina soporte de aplicaciones/TI N1-N2, desarrollo web/móvil y análisis de datos. Experiencia real con usuarios, sistemas, documentación y formación constante.',
       keywords:
-        'Sobre mí Analista TI, Perfil soporte técnico, Ingeniero Informático soporte TI, trabajo remoto'
+        'Sobre mí Ingeniero Informático, Perfil soporte técnico, Soporte de aplicaciones, Desarrollo, Análisis de datos, trabajo remoto'
     });
   }
 
@@ -129,11 +138,11 @@ export class SeoService {
    */
   setExperienceMeta(): void {
     this.setMetaTags({
-      title: 'Experiencia Laboral - Alejandro Villa | Analista TI & Soporte N1/N2',
+      title: 'Experiencia Laboral - Alejandro Villa | Soporte TI, Desarrollo y Datos',
       description:
-        'Experiencia en mesa de ayuda N1/N2, soporte técnico, gestión de tickets en GLPI y ServiceNow, administración de Active Directory y desarrollo frontend con Angular/Ionic en proyectos reales.',
+        'Experiencia en soporte N1/N2, gestión de tickets en GLPI y ServiceNow, administración de Active Directory, desarrollo con Angular/Ionic/Firebase y un caso real de validación de datos con SQL y Python.',
       keywords:
-        'Experiencia Soporte TI N1/N2, GLPI, ServiceNow, Active Directory, documentación técnica'
+        'Experiencia Soporte TI N1/N2, GLPI, ServiceNow, Active Directory, análisis de datos, documentación técnica'
     });
   }
 
@@ -142,11 +151,11 @@ export class SeoService {
    */
   setProjectsMeta(): void {
     this.setMetaTags({
-      title: 'Proyectos - Alejandro Villa | Portafolio TI & Desarrollo Junior',
+      title: 'Proyectos - Alejandro Villa | Desarrollo, Datos y Soporte',
       description:
-        'Proyectos profesionales, académicos y personales con Angular, Ionic y Firebase, incluyendo una app Android de gestión de compras y un sitio web propio desplegado en GitHub Pages.',
+        'Proyectos profesionales, académicos y personales con Angular, Ionic y Firebase, un caso real de limpieza de datos con SQL/Python, una app Android de gestión de compras y este mismo portafolio como proyecto.',
       keywords:
-        'Proyectos Angular junior, Ionic, Firebase, aplicaciones web y móviles'
+        'Proyectos Angular junior, Ionic, Firebase, análisis de datos SQL Python, aplicaciones web y móviles'
     });
   }
 
@@ -155,11 +164,11 @@ export class SeoService {
    */
   setSkillsMeta(): void {
     this.setMetaTags({
-      title: 'Competencias Técnicas - Alejandro Villa | Soporte TI, ITSM y Dev Junior',
+      title: 'Competencias Técnicas - Alejandro Villa | Soporte, Desarrollo y Datos',
       description:
-        'Competencias en soporte TI N1/N2, ITSM (GLPI/ServiceNow), Active Directory e infraestructura, además de desarrollo web junior con Angular, Ionic, Firebase, Python/Django y bases de datos SQL.',
+        'Competencias en soporte TI N1/N2 (GLPI/ServiceNow/Active Directory), desarrollo web junior con Angular/Ionic/Firebase, y análisis de datos con SQL, Python y Excel avanzado.',
       keywords:
-        'Skills Soporte TI N1/N2, GLPI, ServiceNow, Active Directory, Angular junior, Firebase, SQL'
+        'Skills Soporte TI N1/N2, GLPI, ServiceNow, Active Directory, Angular junior, Firebase, SQL, Excel avanzado, Business Intelligence'
     });
   }
 
@@ -168,12 +177,24 @@ export class SeoService {
    */
   setContactMeta(): void {
     this.setMetaTags({
-      title: 'Contacto - Alejandro Villa | Analista TI & Soporte N1/N2 (100% Remoto)',
+      title: 'Contacto - Alejandro Villa | Ingeniero Informático (100% Remoto)',
       description:
-        'Contacta a Alejandro Villa para oportunidades 100% remotas en Soporte TI N1/N2, ITSM o Desarrollo Frontend Junior.',
+        'Contacta a Alejandro Villa para oportunidades 100% remotas en Soporte TI N1/N2, desarrollo web/móvil junior o análisis de datos.',
       keywords:
-        'Contacto Analista TI, Soporte TI remoto, Desarrollo frontend junior, Alejandro Villa contacto'
+        'Contacto Ingeniero Informático, Soporte TI remoto, Desarrollo junior, Análisis de datos, Alejandro Villa contacto'
     });
+  }
+
+  /**
+   * Configura SEO para la página 404 (no indexable: no debe competir en buscadores)
+   */
+  setNotFoundMeta(): void {
+    this.setMetaTags({
+      title: 'Página No Encontrada - Alejandro Villa',
+      description: 'La página solicitada no existe. Navega a las secciones disponibles del portafolio de Alejandro Villa.'
+    });
+    // No indexar esta página específica (a diferencia del resto del sitio)
+    this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
   }
 
   /**
@@ -186,9 +207,9 @@ export class SeoService {
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Alejandro Villa Villavicencio',
-      jobTitle: 'Analista TI & Soporte N1/N2',
+      jobTitle: 'Ingeniero Informático - Soporte de Aplicaciones · Desarrollo · Datos',
       description:
-        'Ingeniero Informático con experiencia en soporte TI N1/N2, ITSM (GLPI/ServiceNow) y Active Directory, además de desarrollo web frontend con Angular e Ionic.',
+        'Ingeniero Informático con experiencia en soporte TI N1/N2 y soporte de aplicaciones (GLPI/ServiceNow/Active Directory), desarrollo web/móvil con Angular, Ionic y Firebase, y análisis de datos con SQL, Python y Excel.',
       url: this.SITE_CONFIG.baseUrl,
       image: this.SITE_CONFIG.defaultImage,
       email: 'alejandro.villa91@gmail.com',
@@ -200,10 +221,11 @@ export class SeoService {
       },
       hasOccupation: {
         '@type': 'Occupation',
-        name: 'Analista TI & Soporte N1/N2'
+        name: 'Ingeniero Informático - Soporte de Aplicaciones, Desarrollo y Datos'
       },
       knowsAbout: [
         'Soporte TI N1/N2',
+        'Soporte de Aplicaciones',
         'ITSM',
         'GLPI',
         'ServiceNow',
@@ -214,10 +236,15 @@ export class SeoService {
         'Firebase',
         'Python',
         'Django',
+        'SQL',
+        'Excel Avanzado',
+        'Análisis de Datos',
+        'Business Intelligence',
         'Documentación técnica'
       ],
       sameAs: [
-        'https://www.linkedin.com/in/alejandro-villa-villavicencio/'
+        'https://www.linkedin.com/in/alejandro-villa-villavicencio/',
+        'https://github.com/alejandro-villa-dev'
       ]
     };
 
@@ -295,6 +322,9 @@ export class SeoService {
         break;
       case 'contact':
         this.setContactMeta();
+        break;
+      case '404':
+        this.setNotFoundMeta();
         break;
       default:
         this.setHomeMeta();

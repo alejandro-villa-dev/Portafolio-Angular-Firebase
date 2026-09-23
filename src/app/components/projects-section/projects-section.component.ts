@@ -11,6 +11,7 @@
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { AnimationService } from '@services/animation.service';
 import { DownloadService } from '@services/download.service';
 import {
@@ -19,6 +20,7 @@ import {
   PERSONAL_PROJECTS,
   CREATIVE_PROJECTS,
   ProjectCategory,
+  ProjectArea,
   getCreativeProjects,
   getFeaturedProjects
 } from '@models/project.model';
@@ -40,6 +42,18 @@ public window = window;
   public activeFilter: ProjectCategory | 'all' = 'all';
   public animationsLoaded = false;
   public selectedProject: Project | null = null;
+
+  // NUEVO: Filtro secundario por área profesional (Desarrollo/Datos/Sistemas-Soporte).
+  // Es independiente del filtro por categoría: un proyecto puede aparecer en varias áreas.
+  public activeArea: ProjectArea | 'all' = 'all';
+
+  // Configuración del filtro por área profesional
+  public areaFilters: { id: ProjectArea | 'all'; label: string; icon: string }[] = [
+    { id: 'all', label: 'Todos', icon: 'apps' },
+    { id: 'development', label: 'Desarrollo', icon: 'code-slash' },
+    { id: 'data', label: 'Datos', icon: 'analytics' },
+    { id: 'support', label: 'Sistemas / Soporte', icon: 'hardware-chip' }
+  ];
 
   // NUEVO: Estado para modales de WADs
   public selectedWAD: Project | null = null;
@@ -91,6 +105,7 @@ constructor(
   private animationService: AnimationService,
   private downloadService: DownloadService,
   private location: Location,
+  private router: Router,
   private cdr: ChangeDetectorRef,
   private sanitizer: DomSanitizer // ✅ Agregado aquí
 ) { }
@@ -163,39 +178,72 @@ ngOnDestroy(): void {
   }
 
   /**
-   * CORRECCIÓN: Cambia el filtro activo y actualiza proyectos de forma segura
+   * CORRECCIÓN: Cambia el filtro activo y actualiza proyectos de forma segura.
+   * CORREGIDO: se agregó guard para clicks repetidos sobre el mismo filtro (mismo
+   * bug que afectaba a Skills: reinvocar la animación de entrada en cada click,
+   * incluso sobre el filtro ya activo, podía dejar tarjetas invisibles con
+   * doble-click rápido). Ver refreshVisibleProjectCards().
    * @param filter - Nuevo filtro a aplicar
    */
   setActiveFilter(filter: ProjectCategory | 'all'): void {
+    if (this.activeFilter === filter) {
+      return;
+    }
+
     console.log('Cambiando filtro a:', filter);
-    
+
     // Actualizar filtro activo
     this.activeFilter = filter;
-    
+
     // Actualizar proyectos filtrados
     this.updateFilteredProjects();
-    
+
     // Forzar detección de cambios
     this.cdr.detectChanges();
-    
-    // Re-animar elementos después de actualizar
+
+    // Asegurar visibilidad de las tarjetas ya filtradas (sin re-animación frágil)
     setTimeout(() => {
-      this.animateProjectCards();
-    }, 100);
+      this.refreshVisibleProjectCards();
+    }, 50);
+  }
+
+  /**
+   * NUEVO: Cambia el filtro de área profesional (Desarrollo/Datos/Sistemas-Soporte)
+   * y actualiza la lista de proyectos, combinándolo con el filtro de categoría activo.
+   * @param area - Nueva área a filtrar
+   */
+  setActiveArea(area: ProjectArea | 'all'): void {
+    if (this.activeArea === area) {
+      return;
+    }
+
+    this.activeArea = area;
+    this.updateFilteredProjects();
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.refreshVisibleProjectCards();
+    }, 50);
   }
 
   /**
    * CORRECCIÓN: Actualiza la lista de proyectos filtrados de forma segura
+   * Aplica primero el filtro de categoría (origen) y luego el de área profesional
+   * (Desarrollo/Datos/Sistemas-Soporte), que son independientes entre sí.
    */
   private updateFilteredProjects(): void {
     const allProjects = this.getAllProjects();
-    
-    if (this.activeFilter === 'all') {
-      this.filteredProjects = [...allProjects];
-    } else {
-      this.filteredProjects = allProjects.filter(project => project.category === this.activeFilter);
+
+    let result = this.activeFilter === 'all'
+      ? [...allProjects]
+      : allProjects.filter(project => project.category === this.activeFilter);
+
+    if (this.activeArea !== 'all') {
+      result = result.filter(project => project.areas.includes(this.activeArea as ProjectArea));
     }
-    
+
+    this.filteredProjects = result;
+
     console.log('Proyectos filtrados actualizados:', this.filteredProjects.length);
   }
 
@@ -433,17 +481,21 @@ getYouTubeEmbedUrl(videoUrl: string): SafeResourceUrl {
   }
 
   /**
-   * Navega a la sección de skills
+   * Navega a la sección de skills.
+   * CORREGIDO: antes usaba `window.location.href`, lo que forzaba una recarga
+   * completa de la página (perdiendo la navegación fluida de la SPA). Ahora usa
+   * el Router de Angular, igual que el resto de la navegación interna del sitio.
    */
   scrollToSkills(): void {
-    window.location.href = '/skills';
+    this.router.navigate(['/skills']).catch(err => console.error('Error navegando a skills:', err));
   }
 
   /**
-   * Navega a la sección de contacto
+   * Navega a la sección de contacto.
+   * CORREGIDO: mismo bug que scrollToSkills() (recarga completa evitable).
    */
   scrollToContact(): void {
-    window.location.href = '/contact';
+    this.router.navigate(['/contact']).catch(err => console.error('Error navegando a contacto:', err));
   }
 
   /**
@@ -462,28 +514,32 @@ getYouTubeEmbedUrl(videoUrl: string): SafeResourceUrl {
         );
       });
 
-      // Animar tarjetas de proyecto
-      this.animateProjectCards();
+      // Animar tarjetas de proyecto (solo en la carga inicial de la página)
+      this.animateProjectCardsOnLoad();
     } catch (error) {
       console.warn('Error en animaciones:', error);
     }
   }
 
   /**
-   * CORRECCIÓN: Anima las tarjetas de proyectos de forma más robusta
+   * Anima la entrada de las tarjetas SOLO en la carga inicial de la página,
+   * usando el IntersectionObserver de AnimationService (fade/scale al entrar
+   * en viewport). NO se debe volver a llamar en cambios de filtro: reinvocar
+   * `observeElement()` sobre elementos ya visibles fuerza su opacidad a 0 de
+   * inmediato y depende de que el observer vuelva a disparar — con clicks
+   * rápidos/repetidos en los filtros esto podía dejar tarjetas invisibles de
+   * forma permanente (mismo bug ya detectado y corregido antes en Skills).
+   * Para cambios de filtro se usa refreshVisibleProjectCards() en su lugar.
    */
-  private animateProjectCards(): void {
+  private animateProjectCardsOnLoad(): void {
     try {
-      // Esperar a que el DOM se actualice
       setTimeout(() => {
         const projectCards = document.querySelectorAll('.project-card');
-        
+
         projectCards.forEach((card, index) => {
-          // Resetear estilos para re-animación
           (card as HTMLElement).style.opacity = '1';
           (card as HTMLElement).style.transform = 'none';
-          
-          // Aplicar animación con delay escalonado
+
           setTimeout(() => {
             this.animationService.observeElement(card, 'scaleIn', 0.2);
           }, index * 50);
@@ -492,5 +548,19 @@ getYouTubeEmbedUrl(videoUrl: string): SafeResourceUrl {
     } catch (error) {
       console.warn('Error al animar tarjetas:', error);
     }
+  }
+
+  /**
+   * Asegura que las tarjetas visibles tras cambiar un filtro queden con opacidad
+   * y posición normales, de forma directa e inmediata (sin animación de reingreso
+   * ni IntersectionObserver). La transición suave de aparición la sigue dando el
+   * `transition` propio de `.project-card` en el SCSS del componente.
+   */
+  private refreshVisibleProjectCards(): void {
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+      (card as HTMLElement).style.opacity = '1';
+      (card as HTMLElement).style.transform = 'none';
+    });
   }
 }

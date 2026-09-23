@@ -8,7 +8,7 @@
       <div class="contact-header contact-animate">
         <h2 class="section-title">Contacto</h2>
         <p class="section-subtitle">
-          ¿Tienes un proyecto, una vacante en QA/Soporte TI o desarrollo frontend? ¡Conversemos!
+          ¿Tienes una vacante en Soporte de Aplicaciones/TI, Desarrollo o Datos? ¡Conversemos!
         </p>
       </div>
 
@@ -24,7 +24,7 @@
               <div class="avatar">
                 <img
                   src="assets/images/placeholder.jpg"
-                  alt="Alejandro Villa Villavicencio - Analista TI &amp; Soporte N1/N2 - Desarrollador Frontend Jr"
+                  alt="Alejandro Villa Villavicencio - Ingeniero Informático - Soporte de Aplicaciones, Desarrollo y Datos"
                   class="avatar-image"
                   (error)="onAvatarError($event)"
                 />
@@ -177,6 +177,24 @@
 
             <!-- Formulario -->
             <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form-element">
+
+              <!--
+                Campo "honeypot" anti-spam: invisible y sin sentido para una persona real
+                (fuera de pantalla, sin label, tabindex -1, autocomplete apagado), pero los
+                bots que autocompletan formularios suelen rellenarlo igual. Si llega con
+                contenido, el envío se descarta en silencio en onSubmit() (ver
+                contact-section.component.ts). No se envía a Firestore en ningún caso.
+              -->
+              <div class="form-field-honeypot" aria-hidden="true">
+                <label for="website">Sitio web</label>
+                <input
+                  type="text"
+                  id="website"
+                  formControlName="website"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
 
               <!-- Fila 1: Nombre y Email -->
               <div class="form-row">

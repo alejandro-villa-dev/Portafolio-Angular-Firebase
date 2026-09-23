@@ -81,7 +81,7 @@ export interface ExperienceDates {
 export const FORMAL_EXPERIENCE: WorkExperience[] = [
   {
     id: 'axity-chile-capredena',
-    position: 'Analista de Operaciones / Soporte Técnico N2',
+    position: 'Agente / Analista Op. Junior — Soporte Técnico N1/N2',
     company: 'Axity Chile (servicios a CAPREDENA)',
     type: 'formal',
     location: 'Santiago, Chile',
@@ -90,27 +90,30 @@ export const FORMAL_EXPERIENCE: WorkExperience[] = [
       endDate: new Date('2026-08-01'),
       duration: '2025-2026'
     },
-    description: 'Soporte técnico N1/N2 a usuarios internos de CAPREDENA, presencial y remoto, con diagnóstico técnico, documentación, seguimiento y cierre de incidentes en GLPI bajo SLA. Administración de accesos y usuarios en Active Directory, soporte a Windows, redes, impresoras y aplicaciones corporativas, incluyendo configuración de dispositivos móviles corporativos.',
+    description: 'Soporte técnico N1 y N2 a usuarios internos de CAPREDENA, presencial y remoto, con diagnóstico técnico, documentación, seguimiento y cierre de incidentes en GLPI bajo SLA. Administración de accesos y usuarios en Active Directory, soporte a Windows, redes, impresoras y aplicaciones corporativas, incluyendo configuración de dispositivos móviles corporativos. Incluyó, además, aproximadamente un mes de apoyo 100% remoto a la operación Kaufmann mediante monitoreo de alertas/correos y generación y escalamiento de casos en ServiceNow.',
     responsibilities: [
-      'Soporte técnico N1/N2 a usuarios internos, presencial y remoto, resolviendo incidentes de hardware, software, accesos, conectividad e impresoras',
+      'Soporte técnico N1 y N2 a usuarios internos, presencial y remoto, resolviendo incidentes de hardware, software, accesos, conectividad e impresoras',
+      'Gestión de un volumen variable de incidencias, con picos de hasta 25 tickets diarios según su complejidad',
       'Gestión, seguimiento y cierre de tickets en GLPI, manteniendo trazabilidad y cumplimiento sostenido de SLA superiores al 90%',
       'Administración básica/intermedia de usuarios, permisos, grupos, accesos y reseteo de contraseñas en Active Directory',
       'Diagnóstico y resolución de incidencias en Windows, redes, impresoras, estaciones de trabajo y equipamiento corporativo',
       'Configuración y soporte de dispositivos móviles Android e iPhone corporativos, incluyendo enrolamiento de cuentas y sincronización de correo',
       'Soporte remoto a usuarios internos mediante Dameware Mini Remote Control y AnyDesk, tomando control de equipos para diagnóstico y resolución directa de incidentes',
+      'Apoyo temporal 100% remoto a la operación Kaufmann: monitoreo de alertas/correos y generación y escalamiento de casos en ServiceNow (aprox. 1 mes)',
       'Escalamiento de incidentes a áreas especializadas cuando correspondía, documentando contexto técnico, evidencias y hallazgos'
     ],
     achievements: [
       'Cumplimiento sostenido de SLA superiores al 90% en la gestión de tickets GLPI',
+      'Gestión de volumen variable de incidencias, con picos de hasta 25 tickets diarios según complejidad',
       'Validación de soluciones aplicadas antes del cierre, identificando patrones de error recurrentes',
       'Apoyo a la continuidad operacional de CAPREDENA mediante soporte N1/N2 estable'
     ],
     technologies: [
-      'GLPI', 'Active Directory', 'Windows', 'Redes TCP/IP', 'Impresoras corporativas',
+      'GLPI', 'ServiceNow', 'Active Directory', 'Windows', 'Redes TCP/IP', 'Impresoras corporativas',
       'Configuración de dispositivos móviles Android/iPhone corporativos', 'Dameware Mini Remote Control', 'AnyDesk'
     ],
     skills: [
-      'Soporte Técnico N1/N2', 'Gestión de Tickets (GLPI)', 'Administración de Active Directory',
+      'Soporte Técnico N1/N2', 'Gestión de Tickets (GLPI/ServiceNow)', 'Administración de Active Directory',
       'Soporte a Dispositivos Móviles Corporativos', 'Documentación Técnica'
     ],
     current: false,
@@ -119,7 +122,7 @@ export const FORMAL_EXPERIENCE: WorkExperience[] = [
   },
   {
     id: 'fundacion-superacion-pobreza',
-    position: 'Coordinador Técnico y Analista de Sistemas',
+    position: 'Especialista TI — Soporte N1/N2, Infraestructura y Aplicaciones',
     company: 'Fundación Superación de la Pobreza',
     type: 'formal',
     location: 'Santiago, Chile',
@@ -128,37 +131,41 @@ export const FORMAL_EXPERIENCE: WorkExperience[] = [
       endDate: new Date('2025-01-01'),
       duration: '2024-2025'
     },
-    description: 'Proyecto de modernización integral: **Desarrollo del módulo de tesistas del sistema SRM** desde cero usando Angular/Ionic/Firebase para reemplazar sistema legacy on-premise con caídas constantes. Implementación de la primera fase funcional del proyecto con arquitectura escalable para futuros módulos. **Desarrollo con apoyo de IA**: Uso de Claude para optimización del backend y arquitectura de datos.',
+    description: 'Rol multifuncional: soporte técnico N1/N2 e infraestructura TI, combinado con **desarrollo del módulo de tesistas del sistema SRM** desde cero usando Angular/Ionic/Firebase para reemplazar un sistema legacy on-premise con caídas constantes. Incluyó levantamiento de requerimientos, análisis de procesos (As-Is/To-Be), QA funcional y un caso real de validación de datos: detección de duplicados sobre más de 30.000 registros mediante SQL y Python previo a la puesta en marcha del nuevo portal. **Desarrollo con apoyo de IA**: uso de Claude para optimización del backend y arquitectura de datos.',
     responsibilities: [
-      'Coordinación técnica: Levantamiento de requerimientos con stakeholders aplicando metodologías aprendidas',
-      '**Desarrollo del módulo de tesistas**: Programación desde cero con Angular/Ionic/Firebase',
-      '**Desarrollo backend con IA**: Uso de Claude (IA) para optimización de arquitectura y lógica de backend',
-      'Diseño de arquitectura escalable: Base técnica preparada para futuros módulos del sistema',
-      'Migración de funcionalidad crítica: Reemplazo de sistema legacy con caídas constantes',
-      'Implementación multiplataforma: Sistema funcional en web, tablet y móvil',
-      'Análisis de procesos: Mapeo de flujos de trabajo existentes e identificación de mejoras (BPM)',
-      'Soporte IT integral: Administración de infraestructura, reparación hardware, configuración redes',
+      'Soporte técnico N1/N2 a usuarios internos e infraestructura TI (equipos, redes, impresoras, aplicaciones corporativas)',
+      'Coordinación técnica: levantamiento de requerimientos con stakeholders y análisis de procesos As-Is/To-Be',
+      '**Desarrollo del módulo de tesistas**: programación desde cero con Angular/Ionic/Firebase',
+      '**Desarrollo backend con IA**: uso de Claude (IA) para optimización de arquitectura y lógica de backend',
+      'QA funcional: pruebas de flujos, datos y reglas de negocio del módulo antes de su puesta en producción',
+      '**Validación y limpieza de datos**: sobre una base de más de 30.000 registros, se detectaron cerca de 500 duplicados mediante SQL y un script en Python, como parte de la preparación del nuevo portal',
+      'Diseño de arquitectura escalable: base técnica preparada para futuros módulos del sistema',
+      'Migración de funcionalidad crítica: reemplazo de sistema legacy con caídas constantes',
+      'Implementación multiplataforma: sistema funcional en web, tablet y móvil',
       'Soporte remoto a usuarios internos mediante AnyDesk y TeamViewer',
-      'Gestión de impresoras: Configuración HP/Ricoh/Brother con sistemas centralizados e IPs'
+      'Gestión de impresoras: configuración HP/Ricoh/Brother con sistemas centralizados e IPs'
     ],
     achievements: [
-      '**Módulo de tesistas completamente funcional**: Primera fase del SRM eliminando caídas constantes',
+      '**Módulo de tesistas completamente funcional**: primera fase del SRM eliminando caídas constantes',
       'Portal en producción: portal-superacionpobreza.web.app/tesis-pais',
-      '**Arquitectura escalable**: Base técnica preparada para expansión de módulos adicionales',
-      'Implementación multiplataforma: Acceso desde web, tablet y dispositivos móviles',
-      '**Desarrollo acelerado con IA**: Uso efectivo de Claude para optimización de backend',
-      'Gestión profesional de alcance: Entrega de fase funcional dentro de limitaciones presupuestarias'
+      '**Detección de ~500 registros duplicados sobre más de 30.000** mediante SQL y Python, como apoyo a la limpieza de datos previa al nuevo portal',
+      '**Arquitectura escalable**: base técnica preparada para expansión de módulos adicionales',
+      'Implementación multiplataforma: acceso desde web, tablet y dispositivos móviles',
+      '**Desarrollo acelerado con IA**: uso efectivo de Claude para optimización de backend',
+      'Gestión profesional de alcance: entrega de fase funcional dentro de limitaciones presupuestarias'
     ],
     technologies: [
       'Angular 18', 'Ionic 8', 'Firebase 11', 'TypeScript 5.4', 'HTML5', 'CSS3',
-      'Herramientas especializadas: Ventoy, Acronis, Rufus', 'Office 365', 'Excel avanzado',
+      'SQL', 'Python', 'Excel avanzado',
+      'Herramientas especializadas: Ventoy, Acronis, Rufus', 'Office 365',
       'AnyDesk', 'TeamViewer',
       '**IA para desarrollo**: Claude (asistente IA para backend y arquitectura)'
     ],
     skills: [
-      '**Desarrollo Full-Stack (Angular/Ionic/Firebase)**', '**Desarrollo con IA (Claude)**', 'Coordinación Técnica', 
-      'Levantamiento de Requerimientos', 'Análisis de Procesos BPM', 'Gestión de Alcance de Proyectos',
-      'Arquitectura de Sistemas Escalables', 'Administración de Infraestructura TI', 'Implementación Multiplataforma'
+      'Soporte Técnico N1/N2', '**Desarrollo Full-Stack (Angular/Ionic/Firebase)**', '**Desarrollo con IA (Claude)**',
+      'Levantamiento de Requerimientos', 'Análisis de Procesos (As-Is/To-Be)', 'QA Funcional',
+      '**Validación y Limpieza de Datos (SQL/Python)**', 'Arquitectura de Sistemas Escalables',
+      'Administración de Infraestructura TI', 'Implementación Multiplataforma'
     ],
     current: false,
     displayOrder: 2,
@@ -180,10 +187,12 @@ export const FORMAL_EXPERIENCE: WorkExperience[] = [
       'Soporte técnico especializado: Gestión de tickets bajo SLA estrictos, resolución nivel 1-2 para ViasChile',
       'Soporte presencial y remoto mediante TeamViewer, troubleshooting de sistemas, conectividad y estaciones de trabajo',
       'Administración de sistemas: Active Directory, creación de perfiles, instalación de software',
+      'Soporte de Microsoft 365 y Outlook (correo, calendario, permisos de buzón) a usuarios corporativos',
       '**Procesamiento de datos CSV**: Limpieza y transformación usando Python con Machine Learning',
       'Eliminación de datos innecesarios y modificación de tablas para optimización',
       'Preparación de archivos CSV optimizados para generación de gráficos y análisis',
       'Infraestructura TI: Configuración de redes, dispositivos móviles corporativos, inventarios',
+      'Detección de problemas recurrentes en el seguimiento de incidencias, aportando a la mejora del servicio',
       'Soporte integral: Reparación hardware, formateo/clonación, soporte remoto nacional'
     ],
     achievements: [
@@ -194,8 +203,8 @@ export const FORMAL_EXPERIENCE: WorkExperience[] = [
       'Reconocimiento por calidad de servicio técnico especializado'
     ],
     technologies: [
-      'ServiceNow', 'Active Directory', 'Excel Avanzado', 'Python (Machine Learning)',
-      'Procesamiento de archivos CSV', 'Sistemas de Ticketing', 'Configuración de Redes', 'TeamViewer'
+      'ServiceNow', 'Active Directory', 'Windows', 'Microsoft 365', 'Outlook', 'Excel Avanzado', 'Python (Machine Learning)',
+      'Procesamiento de archivos CSV', 'Sistemas de Ticketing', 'Configuración de Redes', 'Dispositivos móviles corporativos', 'TeamViewer'
     ],
     skills: [
       'Soporte Técnico Avanzado', 'Gestión de SLA', 'Administración de Sistemas',
@@ -284,7 +293,10 @@ export const FORMAL_EXPERIENCE: WorkExperience[] = [
 
 /**
  * Experiencia independiente de Alejandro Villa
- * Casi 19 años de experiencia práctica desde 2007 (número calculado, no redondear hacia arriba)
+ * IMPORTANTE: esta tarjeta representa el trabajo freelance PAGADO reparando equipos
+ * (más de 10 años), no los ~19 años desde que empezó a hacerlo por curiosidad personal
+ * en 2007 (esa historia se cuenta aparte, en about-section.component.ts, y no debe
+ * mezclarse aquí para no inflar la cifra de "experiencia" como si fuera profesional).
  */
 export const INDEPENDENT_EXPERIENCE: WorkExperience[] = [
   {
@@ -295,9 +307,9 @@ export const INDEPENDENT_EXPERIENCE: WorkExperience[] = [
     location: 'Santiago, Chile',
     dates: {
       startDate: new Date('2007-01-01'),
-      duration: '2007-presente (19+ años)'
+      duration: 'Más de 10 años como freelance (raíces desde 2007)'
     },
-    description: 'Cerca de 19 años siendo "el que arregla computadores" - experiencia práctica sólida desde Windows XP hasta sistemas actuales, desarrollando competencia real en hardware, software y resolución de problemas complejos.',
+    description: 'Más de 10 años de trabajo freelance reparando equipos, con raíces desde 2007 cuando comencé por curiosidad personal como "el que arregla computadores" - experiencia práctica sólida desde Windows XP hasta sistemas actuales, desarrollando competencia real en hardware, software y resolución de problemas complejos.',
     responsibilities: [
       'Reparación hardware avanzada: cambio de componentes (RAM, teclados, touchpad, pantallas, baterías internas, placas base)',
       'Formateo, clonación y migración de sistemas operativos Windows (XP-11)',
@@ -308,7 +320,7 @@ export const INDEPENDENT_EXPERIENCE: WorkExperience[] = [
       'Uso de herramientas especializadas: Ventoy, Acronis, Rufus para optimización de trabajo'
     ],
     achievements: [
-      'Referente técnico en círculo personal y profesional durante casi 19 años',
+      'Referente técnico en círculo personal y profesional durante más de 10 años como freelance',
       'Base sólida de experiencia práctica desde Windows XP hasta tecnologías actuales',
       'Capacidad probada para resolver problemas que otros no pueden',
       'Conocimiento profundo del funcionamiento interno de sistemas',
@@ -349,12 +361,13 @@ export function getExperienceByType(type: ExperienceType): WorkExperience[] {
 }
 
 /**
- * Helper function para calcular años totales de experiencia
+ * Helper function para obtener los años de experiencia freelance (trabajo pagado
+ * reparando equipos, no el inicio de la curiosidad personal en 2007 - ver nota en
+ * INDEPENDENT_EXPERIENCE más arriba). Valor fijo en vez de calculado desde 2007
+ * para no seguir inflando la cifra año tras año.
  */
 export function getTotalYearsOfExperience(): number {
-  const startYear = 2007; // Inicio de experiencia independiente
-  const currentYear = new Date().getFullYear();
-  return currentYear - startYear;
+  return 10;
 }
 
 /**

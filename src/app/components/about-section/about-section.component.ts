@@ -51,12 +51,12 @@ export class AboutSectionComponent implements OnInit {
     },
     formalExperience: {
       title: 'Experiencia Formal',
-      description: 'Mi experiencia formal incluye VTR (donde además capacitaba a nuevos trabajadores), la Escuela José de San Martín (soporte TI y administración de un laboratorio de 45 PCs), Valor Único (Vias Chile) (gestión de tickets en ServiceNow, soporte técnico avanzado y análisis de datos operacionales), la Fundación Superación de la Pobreza (coordinación de modernización de sistemas críticos) y Axity Chile prestando servicios a CAPREDENA (soporte N1/N2, gestión de tickets en GLPI e infraestructura bajo SLA).',
+      description: 'A partir del soporte técnico también participé en desarrollo de software y análisis de datos. Mi experiencia formal incluye VTR (donde además capacitaba a nuevos trabajadores), la Escuela José de San Martín (soporte TI y administración de un laboratorio de 45 PCs), Valor Único (Vias Chile) (soporte N1/N2 con ServiceNow y limpieza de datos operacionales con Python), la Fundación Superación de la Pobreza (soporte N1/N2, desarrollo del módulo de tesistas del SRM y un caso real de validación de datos sobre más de 30.000 registros) y Axity Chile prestando servicios a CAPREDENA (soporte N1/N2, gestión de tickets en GLPI e infraestructura bajo SLA).',
       highlights: [
         'VTR: Soporte técnico + Capacitador',
         'Escuela José de San Martín: Soporte TI y administración de laboratorio computacional (45 PCs)',
-        'Valor Único (Vias Chile): Gestión de tickets en ServiceNow, soporte técnico avanzado + Análisis de datos operacionales',
-        'Fundación: Coordinación técnica y analista de sistemas + modernización',
+        'Valor Único (Vias Chile): Soporte técnico N1/N2 con ServiceNow + limpieza de datos operacionales (Python)',
+        'Fundación: Soporte N1/N2, desarrollo del módulo de tesistas (Angular/Ionic/Firebase) y validación de datos (30.000+ registros)',
         'Axity Chile (CAPREDENA): Soporte técnico N1/N2, gestión de tickets en GLPI y Active Directory bajo SLA'
       ]
     },
@@ -78,18 +78,31 @@ export class AboutSectionComponent implements OnInit {
   // también en el hero (home).
   public certifications = CERTIFICATIONS;
 
-  // Diferencial único ACTUALIZADO según el prompt
+  // Diferencial único: base transversal de Ingeniería Informática que conecta 3 áreas
   public uniqueValue = {
     title: 'Mi Diferencial',
-    description: 'Combino experiencia práctica sólida con formación académica reciente, buscando aplicar mis conocimientos en roles de crecimiento profesional.',
+    description: 'Una base transversal de Ingeniería Informática que conecta 3 áreas relacionadas -Soporte de Aplicaciones, Desarrollo y Datos- en vez de tres perfiles desconectados.',
     points: [
-      'Años de experiencia práctica + título universitario reciente',
-      'Coordinador técnico-negocio que entiende limitaciones reales',
+      'Base real en soporte TI N1/N2 (5+ años) que sostiene el resto de mi perfil',
+      'Desarrollo web/móvil aplicado en sistemas reales (Angular, Ionic, Firebase)',
+      'Análisis de datos con casos concretos (SQL/Python sobre más de 30.000 registros)',
       'Solucionador de problemas con enfoque práctico y estructurado',
       'Experiencia probada en capacitación y desarrollo de equipos',
-      'Busco oportunidades de crecimiento en desarrollo y análisis'
+      'Busco oportunidades de crecimiento en cualquiera de estas 3 áreas'
     ]
   };
+
+  // Ciclo de gestión de incidentes / soporte de aplicaciones (flujo conceptual, sin
+  // información confidencial de ningún cliente). Ver sección "Soporte de Aplicaciones".
+  public supportProcessSteps = [
+    { label: 'Incidente', icon: 'alert-circle-outline' },
+    { label: 'Diagnóstico', icon: 'search-outline' },
+    { label: 'Categorización', icon: 'pricetags-outline' },
+    { label: 'Resolución / Escalamiento', icon: 'git-branch-outline' },
+    { label: 'Validación', icon: 'checkmark-done-outline' },
+    { label: 'Documentación', icon: 'document-text-outline' },
+    { label: 'Cierre bajo SLA', icon: 'checkmark-circle-outline' }
+  ];
 
   // Filosofía profesional
   public philosophy = {
@@ -132,9 +145,9 @@ export class AboutSectionComponent implements OnInit {
     { year: '2020', event: 'Inicio Ingeniería Informática DuocUC', type: 'education' },
     { year: '2020', event: 'Escuela José de San Martín - Soporte TI y laboratorio de 45 PCs (2020-2023)', type: 'professional' },
     { year: '2023', event: 'Valor Único (Vias Chile) - Especialista soporte técnico', type: 'professional' },
-    { year: '2024', event: 'Fundación - Coordinador técnico, Analista en sistema, Modernización', type: 'professional' },
+    { year: '2024', event: 'Fundación - Especialista TI: Soporte N1/N2, Infraestructura y Aplicaciones', type: 'professional' },
     { year: '2025', event: 'Titulación Ingeniero Informática', type: 'education' },
-    { year: '2025', event: 'Axity Chile (CAPREDENA) - Analista de Operaciones / Soporte N2', type: 'professional' }
+    { year: '2025', event: 'Axity Chile (CAPREDENA) - Soporte Técnico N1/N2', type: 'professional' }
   ];
 
   // Estado de animaciones
@@ -222,11 +235,15 @@ export class AboutSectionComponent implements OnInit {
   }
 
   /**
-   * Calcula años de experiencia práctica
+   * Años de experiencia práctica freelance (trabajo pagado reparando equipos).
+   * CORREGIDO: antes calculaba desde 2007 (cuando empezó por curiosidad personal,
+   * ver biography.earlyStart más arriba, que sí se mantiene tal cual), lo que
+   * inflaba este badge a ~19 años y seguía creciendo cada año. La cifra de
+   * experiencia práctica/freelance real son 10+ años (igual que en Experiencia
+   * y en la skill "hardware-repair"); los 5 años profesionales formales en TI
+   * se muestran aparte, en el Hero/Footer/Experiencia.
    */
   getYearsOfExperience(): number {
-    const startYear = 2007;
-    const currentYear = new Date().getFullYear();
-    return currentYear - startYear;
+    return 10;
   }
 }

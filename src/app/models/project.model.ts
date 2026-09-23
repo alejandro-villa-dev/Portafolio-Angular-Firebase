@@ -25,9 +25,17 @@ export interface Project {
   /** Descripción detallada del proyecto */
   fullDescription: string;
   
-  /** Categoría del proyecto */
+  /** Categoría del proyecto (origen: profesional/académico/personal/creativo) */
   category: ProjectCategory;
-  
+
+  /**
+   * Área(s) profesional(es) que demuestra el proyecto (Desarrollo/Datos/Soporte).
+   * Es independiente de `category`: un proyecto puede pertenecer a varias áreas
+   * a la vez (ej: el SRM es Desarrollo y también Datos por su QA/validación de datos).
+   * Se usa para el filtro "Desarrollo / Datos / Sistemas-Soporte" de la sección de Proyectos.
+   */
+  areas: ProjectArea[];
+
   /** Tipo específico del proyecto */
   type: ProjectType;
   
@@ -87,9 +95,15 @@ export interface Project {
 }
 
 /**
- * Categorías principales de proyectos
+ * Categorías principales de proyectos (origen del proyecto)
  */
 export type ProjectCategory = 'professional' | 'academic' | 'creative' | 'personal';
+
+/**
+ * Áreas profesionales que un proyecto puede demostrar (independiente de `category`).
+ * Usadas para el filtro "Todos / Desarrollo / Datos / Sistemas-Soporte".
+ */
+export type ProjectArea = 'development' | 'data' | 'support';
 
 /**
  * Tipos específicos de proyectos
@@ -209,8 +223,9 @@ export const ALEJANDRO_PROJECTS: Project[] = [
     id: 'srm-portal-superacion',
     title: 'Sistema SRM - Portal Superación de la Pobreza',
     shortDescription: 'Modernización completa de sistema legacy crítico con Angular, Ionic y Firebase',
-    fullDescription: 'Coordinación técnica y análisis de procesos para reemplazo de sistema on-premise con fallas constantes. Implementación de arquitectura moderna en la nube con eliminación total de caídas del sistema.',
+    fullDescription: 'Coordinación técnica y análisis de procesos para reemplazo de sistema on-premise con fallas constantes. Implementación de arquitectura moderna en la nube con eliminación total de caídas del sistema. Incluyó formularios, validaciones, navegación, gestión de postulaciones/documentos, QA funcional y reglas de negocio.',
     category: 'professional',
+    areas: ['development'],
     type: 'system-modernization',
     technologies: [
       { name: 'Angular', version: '18', category: 'frontend', color: '#dd0031' },
@@ -256,11 +271,13 @@ export const ALEJANDRO_PROJECTS: Project[] = [
     shortDescription: 'Proyecto académico de alta complejidad técnica con gestión integral de datos',
     fullDescription: 'Desarrollo completo de sistema para gestión territorial como proyecto de título de Ingeniería Informática. Implementación de arquitectura robusta con manejo avanzado de datos geoespaciales.',
     category: 'academic',
+    areas: ['development'],
     type: 'web-application',
     technologies: [
       { name: 'Angular', category: 'frontend', color: '#dd0031' },
       { name: 'Ionic', category: 'mobile', color: '#3880ff' },
-      { name: 'Firebase', category: 'cloud', color: '#ffca28' }
+      { name: 'Firebase', category: 'cloud', color: '#ffca28' },
+      { name: 'Node.js', category: 'backend', color: '#68a063' }
     ],
     links: {
       live: 'https://sistema-unidad-terrritorial.web.app/#/login'
@@ -291,6 +308,44 @@ export const ALEJANDRO_PROJECTS: Project[] = [
     ],
     featured: true,
     displayOrder: 2
+  },
+  {
+    id: 'deteccion-registros-duplicados',
+    title: 'Detección y Depuración de Registros Duplicados',
+    shortDescription: 'Caso real de limpieza de datos: SQL + Python sobre más de 30.000 registros previo al lanzamiento de un nuevo portal',
+    fullDescription: 'Caso de validación y limpieza de datos realizado como parte de la preparación/migración de información hacia un nuevo portal. Sobre una base de más de 30.000 registros, se aplicaron consultas SQL y un script en Python para detectar cerca de 500 registros duplicados o inconsistentes, dejándolos identificados para su revisión y depuración antes de la puesta en marcha. No se exponen datos reales, nombres, RUT ni información interna: se presenta únicamente el caso conceptual y la metodología aplicada.',
+    category: 'professional',
+    areas: ['data'],
+    type: 'process-analysis',
+    technologies: [
+      { name: 'SQL', category: 'database', color: '#336791' },
+      { name: 'Python', category: 'backend', color: '#3776ab' },
+      { name: 'Excel', category: 'tools', color: '#217346' }
+    ],
+    links: {},
+    images: {
+      thumbnail: 'assets/projects/data-cleaning-thumb.jpg',
+      screenshots: []
+    },
+    dates: {
+      startDate: new Date('2024-06-01'),
+      endDate: new Date('2024-09-01')
+    },
+    role: 'Analista de Datos',
+    client: 'Fundación Superación de la Pobreza',
+    status: 'completed',
+    achievements: [
+      'Más de 30.000 registros analizados como parte de la preparación de datos para el nuevo portal',
+      'Cerca de 500 registros duplicados detectados y dejados listos para validación y depuración',
+      'Metodología reutilizable combinando consultas SQL y un script de Python para el mismo tipo de problema'
+    ],
+    challenges: [
+      'Detectar duplicados e inconsistencias sin un identificador único confiable en todos los registros',
+      'Procesar un volumen considerable de datos sin herramientas de limpieza automatizada previamente disponibles',
+      'Documentar el proceso para que fuera repetible antes del lanzamiento del portal'
+    ],
+    featured: true,
+    displayOrder: 3
   }
 ];
 
@@ -306,6 +361,7 @@ export const PERSONAL_PROJECTS: Project[] = [
     shortDescription: 'App Android nativa para organizar compras y controlar el presupuesto, 100% offline y sin cuentas de usuario',
     fullDescription: 'Aplicación móvil desarrollada con Angular, Ionic y Capacitor para gestionar listas de compras, controlar el presupuesto en tiempo real y llevar un registro de gastos. Funciona completamente offline, sin necesidad de crear una cuenta, con almacenamiento local y un enfoque centrado en la privacidad del usuario.',
     category: 'personal',
+    areas: ['development'],
     type: 'mobile-app',
     technologies: [
       { name: 'Angular', version: '18', category: 'frontend', color: '#dd0031' },
@@ -337,7 +393,7 @@ export const PERSONAL_PROJECTS: Project[] = [
       'Definición de un modelo freemium simple (límite de listas y productos) sin sistema de cuentas'
     ],
     featured: true,
-    displayOrder: 6
+    displayOrder: 4
   },
   {
     id: 'ast-digital-formulario',
@@ -345,6 +401,7 @@ export const PERSONAL_PROJECTS: Project[] = [
     shortDescription: 'Formulario web desarrollado de forma independiente como favor a un conocido',
     fullDescription: 'Formulario web con validaciones e interfaz simple, desarrollado por cuenta propia (fuera de un contexto laboral o académico) a pedido de un conocido. Quedó alojado y disponible desde entonces.',
     category: 'personal',
+    areas: ['development'],
     type: 'web-application',
     technologies: [
       { name: 'Angular', category: 'frontend', color: '#dd0031' },
@@ -373,7 +430,48 @@ export const PERSONAL_PROJECTS: Project[] = [
       'Balancear simplicidad de uso con validaciones robustas en poco tiempo'
     ],
     featured: false,
-    displayOrder: 7
+    displayOrder: 5
+  },
+  {
+    id: 'portafolio-personal',
+    title: 'Este Portafolio (Angular + Ionic + Firebase)',
+    shortDescription: 'Este sitio también es uno de mis proyectos: SPA responsive con Angular, Ionic y Firebase Hosting',
+    fullDescription: 'El propio portafolio web, desarrollado como proyecto personal para presentar mi perfil profesional. Incluye diseño responsive, modo claro/oscuro, componentes reutilizables, routing con lazy loading por sección, integración con Firebase (Firestore y Hosting), SEO dinámico por sección y despliegue continuo en Firebase Hosting.',
+    category: 'personal',
+    areas: ['development'],
+    type: 'web-application',
+    technologies: [
+      { name: 'Angular', version: '18', category: 'frontend', color: '#dd0031' },
+      { name: 'Ionic', version: '8', category: 'mobile', color: '#3880ff' },
+      { name: 'TypeScript', version: '5.4', category: 'frontend', color: '#3178c6' },
+      { name: 'Firebase', version: '11', category: 'cloud', color: '#ffca28' },
+      { name: 'Firestore', category: 'database', color: '#ffa000' },
+      { name: 'SCSS', category: 'frontend', color: '#cc6699' }
+    ],
+    links: {
+      live: 'https://portafolio-alejandro-villa.web.app',
+      repository: 'https://github.com/alejandro-villa-dev/Portafolio-Angular-Firebase'
+    },
+    images: {
+      thumbnail: 'assets/projects/portafolio-thumb.jpg',
+      screenshots: []
+    },
+    dates: {
+      startDate: new Date('2024-06-01')
+    },
+    role: 'Desarrollador Full Stack (Frontend + Firebase)',
+    status: 'in-production',
+    achievements: [
+      'Sitio 100% responsive desplegado en Firebase Hosting',
+      'Routing con lazy loading por sección y SEO dinámico (meta tags y structured data por página)',
+      'Componentes reutilizables (header, footer, cards de CV) y modo claro/oscuro'
+    ],
+    challenges: [
+      'Mantener la arquitectura modular y reutilizable a medida que crecen las secciones',
+      'Configurar reglas de Firestore seguras para el formulario de contacto sin exponer datos'
+    ],
+    featured: true,
+    displayOrder: 6
   }
 ];
 
@@ -390,6 +488,7 @@ export const CREATIVE_PROJECTS: Project[] = [
     shortDescription: 'WAD completo para DOOM II con 11 niveles originales demostrando creatividad técnica',
     fullDescription: 'Desarrollo de modificación completa para DOOM II con 11 niveles únicos. Demuestra capacidad de pensamiento espacial, diseño de experiencias y resolución de problemas creativos bajo limitaciones técnicas.',
     category: 'creative',
+    areas: [],
     type: 'game-mod',
     technologies: [
       { name: 'Doom Builder', category: 'tools', color: '#8b0000' },
@@ -427,7 +526,7 @@ export const CREATIVE_PROJECTS: Project[] = [
       'Coherencia narrativa entre los 11 niveles'
     ],
     featured: true,
-    displayOrder: 4,
+    displayOrder: 7,
     videoUrl: 'https://youtu.be/VzD9NT5F_Z0',
     wadAvailable: true,
     modalBackgroundImage: 'assets/wads/wad_11niveles.png',
@@ -452,6 +551,7 @@ export const CREATIVE_PROJECTS: Project[] = [
     shortDescription: 'Nivel experimental explorando técnicas avanzadas de iluminación inspiradas en DOOM 3',
     fullDescription: 'Proyecto experimental que explora las posibilidades de luces y sombras en el engine clásico de DOOM. Inspirado en las técnicas de iluminación de DOOM 3, demuestra capacidad de innovación dentro de limitaciones técnicas.',
     category: 'creative',
+    areas: [],
     type: 'game-mod',
     technologies: [
       { name: 'Doom Builder', category: 'tools', color: '#8b0000' },
@@ -487,7 +587,7 @@ export const CREATIVE_PROJECTS: Project[] = [
       'Mantener jugabilidad fluida'
     ],
     featured: true,
-    displayOrder: 5,
+    displayOrder: 8,
     videoUrl: 'https://youtu.be/5-E392uGTj8',
     wadAvailable: false,
     modalBackgroundImage: 'assets/wads/wad_video.png',
@@ -506,6 +606,7 @@ export const CREATIVE_PROJECTS: Project[] = [
     shortDescription: 'Sitio web para presentar mi proyecto musical personal, desplegado en GitHub Pages',
     fullDescription: 'Sitio web desarrollado con HTML, CSS y JavaScript puro (sin frameworks) para presentar DemWolf, mi proyecto musical personal, con reproductores de Spotify embebidos y acceso centralizado a distintas plataformas de streaming. Usado aquí también como demostración de desarrollo web puro y despliegue con GitHub Pages, más allá del contenido musical en sí.',
     category: 'creative',
+    areas: ['development'],
     type: 'web-application',
     technologies: [
       { name: 'HTML5', category: 'frontend', color: '#e34f26' },
@@ -537,7 +638,7 @@ export const CREATIVE_PROJECTS: Project[] = [
       'Configuración y despliegue del sitio con GitHub Pages'
     ],
     featured: true,
-    displayOrder: 7
+    displayOrder: 9
   }
 ];
 
@@ -547,6 +648,17 @@ export const CREATIVE_PROJECTS: Project[] = [
 export function getProjectsByCategory(category: ProjectCategory): Project[] {
   const allProjects = [...ALEJANDRO_PROJECTS, ...PERSONAL_PROJECTS, ...CREATIVE_PROJECTS];
   return allProjects.filter(project => project.category === category);
+}
+
+/**
+ * Helper function para obtener proyectos por área profesional (Desarrollo/Datos/Soporte).
+ * Un proyecto puede pertenecer a varias áreas a la vez (ver `Project.areas`).
+ */
+export function getProjectsByArea(area: ProjectArea): Project[] {
+  const allProjects = [...ALEJANDRO_PROJECTS, ...PERSONAL_PROJECTS, ...CREATIVE_PROJECTS];
+  return allProjects
+    .filter(project => project.areas.includes(area))
+    .sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
 /**

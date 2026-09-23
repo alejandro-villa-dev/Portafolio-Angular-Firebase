@@ -75,6 +75,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  min-width: 0; // Permite que el flex-item se achique sin forzar overflow en el header
+  flex-shrink: 1;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 8px;
@@ -138,34 +140,61 @@
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
-  
+  min-width: 0; // Necesario para que el ellipsis de los hijos funcione dentro del flex
+
   @media (max-width: 768px) {
     display: none; // Ocultar en móvil para dar más espacio
   }
 }
 
+// NOTA: nombre y título usan una sola línea con "..." si no caben, en vez de envolver
+// a 2-3 líneas — con el header a altura fija (80px) el texto envuelto rompía el layout
+// y empujaba el contenido de abajo (bug real detectado con anchos de 1024-1440px).
+// Los anchos máximos NO bajan de forma lineal: entre 1025-1199px el nav todavía
+// muestra las etiquetas de texto completas (la zona más apretada), pero a ≤1024px
+// esas etiquetas se ocultan (solo iconos, ver .nav-label) y sobra espacio de nuevo.
 .brand-name {
+  display: block;
+  max-width: 210px; // Zona apretada (1025-1199px) por defecto
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--ion-text-color, #202124);
   letter-spacing: -0.025em;
   transition: color 0.3s ease;
-  
+
+  @media (min-width: 1200px) {
+    max-width: 420px; // Sobra espacio: mostrar el nombre completo
+  }
+
   @media (max-width: 1024px) {
     font-size: 1.125rem;
+    max-width: 260px; // Nav en modo "solo iconos": libera espacio de nuevo
   }
 }
 
 .brand-title {
+  display: block;
+  max-width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--ion-text-color-secondary, #5f6368);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: color 0.3s ease;
-  
+
+  @media (min-width: 1200px) {
+    max-width: 420px;
+  }
+
   @media (max-width: 1024px) {
     font-size: 0.7rem;
+    max-width: 260px;
   }
 }
 

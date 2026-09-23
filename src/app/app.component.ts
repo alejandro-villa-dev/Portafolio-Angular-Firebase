@@ -11,6 +11,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, NavigationError } from '@angular/router';
 import { ThemeService } from '@services/theme.service';
+import { SeoService } from '@services/seo.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private themeService: ThemeService,
-    private router: Router
+    private router: Router,
+    private seoService: SeoService
   ) {
     this.initializeApp();
   }
@@ -30,6 +32,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Cargar tema al iniciar
     this.themeService.loadTheme();
+
+    // Structured data (JSON-LD) una sola vez: no cambia entre secciones
+    this.seoService.addStructuredData();
 
     // Configurar listeners de navegación
     this.setupNavigationListeners();
@@ -108,24 +113,14 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Actualiza meta tags según la página actual
-   * @param url - URL actual
+   * Actualiza meta tags (título, descripción, Open Graph, Twitter Card) según la
+   * sección actual, delegando en SeoService para no duplicar esta lógica.
+   * @param url - URL actual (ej: '/home', '/about', '/projects/123')
    */
   private updatePageMeta(url: string): void {
-    // Aquí puedes integrar con SEO Service si lo tienes
-    // Por ahora solo actualizamos el título
-    const titles: { [key: string]: string } = {
-      '/home': 'Alejandro Villa - Analista TI & Soporte N1/N2',
-      '/about': 'Sobre Mí - Alejandro Villa',
-      '/experience': 'Experiencia - Alejandro Villa',
-      '/projects': 'Proyectos - Alejandro Villa',
-      '/skills': 'Skills - Alejandro Villa',
-      '/contact': 'Contacto - Alejandro Villa',
-      '/404': 'Página No Encontrada - Alejandro Villa'
-    };
-
-    const title = titles[url] || 'Alejandro Villa - Portafolio';
-    document.title = title;
+    // Tomamos el primer segmento de la ruta como sección (ignora query params/sub-rutas)
+    const section = url.split('/').filter(Boolean)[0] || 'home';
+    this.seoService.updateMetaForSection(section);
   }
 
   /**

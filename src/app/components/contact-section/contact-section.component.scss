@@ -675,6 +675,19 @@
   gap: var(--spacing-xs);
 }
 
+// Campo honeypot anti-spam: oculto visualmente pero SIN "display:none" ni
+// "visibility:hidden" (varios bots detectan y evitan esos dos casos puntuales).
+// Se posiciona fuera de la pantalla en vez de ocultarlo, para que solo sea
+// invisible a simple vista, no a un lector automatizado de formularios.
+.form-field-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
 .field-label {
   font-size: clamp(0.8rem, 2.5vw, 0.95rem);
   font-weight: 600;

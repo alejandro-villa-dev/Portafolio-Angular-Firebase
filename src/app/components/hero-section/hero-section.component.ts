@@ -18,24 +18,29 @@ export class HeroSectionComponent implements OnInit {
 
   /**
    * Información personal mostrada en el hero.
-   * IMPORTANTE: Aquí debe alinearse el mensaje con el CV y el resto del portafolio.
+   * IMPORTANTE: Aquí debe alinearse el mensaje con los 3 CV y el resto del portafolio.
+   * Identidad principal: Ingeniero Informático con 3 áreas relacionadas (Soporte de
+   * Aplicaciones, Desarrollo, Datos), no tres perfiles desconectados.
    */
   public personalInfo = {
     // Nombre completo
     name: 'Alejandro Villa Villavicencio',
 
     // Título principal que verá el reclutador
-    // Alineado con el CV: Analista TI/Soporte N1-N2 + Desarrollo Frontend Jr (perfil híbrido real)
-    title: 'Analista TI & Soporte N1/N2 · Desarrollador Frontend Jr',
+    title: 'Ingeniero Informático | Soporte de Aplicaciones · Desarrollo · Datos',
 
-    // Frase corta que resume tu propuesta de valor
-    tagline: 'Soporte TI N1/N2, ITSM y desarrollo frontend con Angular e Ionic para sistemas estables y funcionales.',
+    // Variante corta, útil si el diseño necesita un subtítulo más breve
+    titleShort: 'Soporte de Aplicaciones · Desarrollo · Datos',
 
-    // Descripción un poco más larga (2–3 líneas)
+    // Frase corta que resume la propuesta de valor
+    tagline: 'Soporte TI N1/N2 y de aplicaciones, con desarrollo web/móvil y análisis de datos como áreas complementarias.',
+
+    // Descripción un poco más larga (debe entenderse en menos de 10 segundos)
     description:
-      'Ingeniero Informático con experiencia real en soporte técnico N1/N2, Active Directory e ITSM ' +
-      '(GLPI/ServiceNow), combinada con desarrollo frontend en Angular/Ionic y bases de Python/Django. ' +
-      'Busco una oportunidad 100% remota donde pueda aportar en soporte, calidad y desarrollo de software.',
+      'Ingeniero Informático con experiencia en soporte TI N1/N2 y soporte de aplicaciones, ' +
+      'complementada con desarrollo web/móvil y análisis de datos. He trabajado con usuarios, ' +
+      'incidentes, sistemas corporativos, SQL, automatización y desarrollo de soluciones utilizando ' +
+      'Angular, Ionic, TypeScript, Firebase y Python.',
 
     // Datos de contacto (sin ubicación específica: búsqueda de trabajo 100% remoto)
     location: 'Remoto · LATAM',
@@ -50,15 +55,82 @@ export class HeroSectionComponent implements OnInit {
     github: 'https://github.com/alejandro-villa-dev'
   };
 
+  /**
+   * Ícono (Ionicon) representativo de cada tecnología/herramienta usada en los badges
+   * de las tarjetas de CV, para que se vean más llamativas que solo texto plano.
+   * Reutiliza los mismos íconos que ya usa skill.model.ts para esa misma tecnología,
+   * así se mantiene consistencia visual entre el Hero y la sección de Skills.
+   */
+  private readonly BADGE_ICONS: Record<string, string> = {
+    'ServiceNow': 'construct-outline',
+    'GLPI': 'ticket-outline',
+    'Active Directory': 'people-circle-outline',
+    'ITSM': 'settings-outline',
+    'SQL': 'server-outline',
+    'Angular': 'logo-angular',
+    'Ionic': 'phone-portrait-outline',
+    'TypeScript': 'code-slash-outline',
+    'Firebase': 'flame-outline',
+    'Git': 'git-branch-outline',
+    'Python': 'logo-python',
+    'Excel': 'grid-outline',
+    'Power Query': 'funnel-outline',
+    'Inteligencia de Negocios': 'bar-chart-outline'
+  };
+
+  /**
+   * Metadata visual de cada perfil de CV (badges + enlace secundario), combinada en
+   * tiempo real con la info real de DownloadService (nombre, descripción, ruta del PDF).
+   * Centralizado aquí porque es contenido de presentación (UI), no de descarga.
+   */
+  private readonly CV_PROFILE_META: Record<string, { badges: string[]; secondaryLabel: string; secondaryRoute: string }> = {
+    'cv-analista-ti': {
+      badges: ['ServiceNow', 'GLPI', 'Active Directory', 'ITSM', 'SQL'],
+      secondaryLabel: 'Ver experiencia relacionada',
+      secondaryRoute: '/experience'
+    },
+    'cv-desarrollador-jr': {
+      badges: ['Angular', 'Ionic', 'TypeScript', 'Firebase', 'Git'],
+      secondaryLabel: 'Ver proyectos de desarrollo',
+      secondaryRoute: '/projects'
+    },
+    'cv-analista-datos': {
+      badges: ['SQL', 'Python', 'Excel', 'Power Query', 'Inteligencia de Negocios'],
+      secondaryLabel: 'Ver experiencia en datos',
+      secondaryRoute: '/experience'
+    }
+  };
+
+  /**
+   * Convierte los nombres de badges en objetos {label, icon} usando BADGE_ICONS.
+   * @param badges - Nombres de tecnologías/herramientas (ej: 'Angular', 'SQL')
+   */
+  private buildBadges(badges: string[]): { label: string; icon: string }[] {
+    return badges.map(label => ({
+      label,
+      icon: this.BADGE_ICONS[label] || 'pricetag-outline'
+    }));
+  }
+
   /** Controla si las animaciones iniciales se consideran cargadas */
   public animationsLoaded: boolean = false;
 
   /**
-   * CVs disponibles (hay más de un perfil de postulación: Analista TI y Desarrollador Jr).
-   * Se muestran ambos como tarjetas independientes en vez de un único botón genérico,
-   * para que cada uno sea igual de accesible desde el hero.
+   * CVs disponibles (3 perfiles de postulación: Analista TI, Desarrollador Jr y Analista
+   * de Datos). Se muestran los tres como tarjetas independientes y visibles a la vez
+   * (nunca ocultas en un dropdown), para que cada una sea igual de accesible desde el hero.
    */
   public cvFiles: ReturnType<DownloadService['getCvFiles']>;
+
+  /**
+   * CVs combinados con su metadata visual (badges con ícono + enlace secundario) para
+   * la sección "CV según área profesional". Ver CV_PROFILE_META y BADGE_ICONS.
+   */
+  public cvProfiles: (ReturnType<DownloadService['getCvFiles']>[number] & {
+    badges: { label: string; icon: string }[];
+    secondaryLabel: string;
+    secondaryRoute: string;
+  })[];
 
   /**
    * Certificaciones verificables (título DuocUC y certificado Python), mostradas
@@ -68,6 +140,14 @@ export class HeroSectionComponent implements OnInit {
 
   constructor(private downloadService: DownloadService) {
     this.cvFiles = this.downloadService.getCvFiles();
+    this.cvProfiles = this.cvFiles.map(cv => {
+      const meta = this.CV_PROFILE_META[cv.id];
+      return {
+        ...cv,
+        ...meta,
+        badges: this.buildBadges(meta.badges)
+      };
+    });
   }
 
   ngOnInit(): void {

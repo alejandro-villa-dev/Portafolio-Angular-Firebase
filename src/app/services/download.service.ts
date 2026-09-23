@@ -48,15 +48,17 @@ interface DownloadTrack {
 export class DownloadService {
 
   // Archivos disponibles para descarga
-  // NOTA: hay dos CVs vigentes (uno por perfil/postulación), ambos 100% remotos y sin
+  // NOTA: hay tres CVs vigentes (uno por perfil/postulación), los tres 100% remotos y sin
   // datos personales sensibles (sin RUT, edad ni ubicación). Los componentes que ofrecen
-  // "Descargar CV" deben dejar elegir entre ambos en vez de asumir uno solo.
+  // "Descargar CV" deben dejar elegir entre los tres en vez de asumir uno solo.
+  // IMPORTANTE: los nombres de archivo usan guion bajo (sin espacios) porque así los
+  // renombró Alejandro en src/assets/cv/ — deben coincidir exactamente o la descarga falla.
   private readonly AVAILABLE_FILES: DownloadableFile[] = [
     {
       id: 'cv-analista-ti',
       name: 'CV Analista TI & Soporte N1/N2',
-      filename: 'Alejandro Villa CV Analista TI Remoto.pdf',
-      path: 'assets/cv/Alejandro Villa CV Analista TI Remoto.pdf',
+      filename: 'Alejandro_Villa_CV_Analista_TI_Remoto.pdf',
+      path: 'assets/cv/Alejandro_Villa_CV_Analista_TI_Remoto.pdf',
       size: '190 KB',
       type: 'cv',
       description: 'Currículum orientado a roles de Analista TI / Soporte N1-N2: ITSM (GLPI/ServiceNow), Active Directory e infraestructura.',
@@ -65,11 +67,21 @@ export class DownloadService {
     {
       id: 'cv-desarrollador-jr',
       name: 'CV Desarrollador Junior',
-      filename: 'Alejandro Villa CV Desarrollador JR Remoto.pdf',
-      path: 'assets/cv/Alejandro Villa CV Desarrollador JR Remoto.pdf',
+      filename: 'Alejandro_Villa_CV_Desarrollador_JR_Remoto.pdf',
+      path: 'assets/cv/Alejandro_Villa_CV_Desarrollador_JR_Remoto.pdf',
       size: '191 KB',
       type: 'cv',
       description: 'Currículum orientado a roles de Desarrollador Web Junior / Full Stack Junior: Angular, Ionic, Firebase, Python/Django.',
+      version: '2026.1'
+    },
+    {
+      id: 'cv-analista-datos',
+      name: 'CV Analista de Datos / BI Junior',
+      filename: 'Alejandro_Villa_CV_Analista_Datos_BI_Remoto.pdf',
+      path: 'assets/cv/Alejandro_Villa_CV_Analista_Datos_BI_Remoto.pdf',
+      size: '190 KB',
+      type: 'cv',
+      description: 'Currículum orientado a roles de Analista de Datos Junior: SQL, Python, Excel avanzado y fundamentos de inteligencia de negocios.',
       version: '2026.1'
     },
     {

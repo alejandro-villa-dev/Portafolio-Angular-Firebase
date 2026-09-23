@@ -4,8 +4,8 @@
  * DESCRIPCIÓN:
  * Componente para la sección de contacto del portafolio.
  * ACTUALIZADO: Información de contacto alineada con el posicionamiento actual:
- * Analista TI & Soporte N1/N2 · Desarrollador Frontend Jr, buscando oportunidades
- * 100% remotas en soporte TI, ITSM y desarrollo frontend.
+ * Ingeniero Informático con 3 áreas (Soporte de Aplicaciones, Desarrollo, Datos),
+ * buscando oportunidades 100% remotas en cualquiera de esas áreas.
  */
 
 import { Component, OnInit } from '@angular/core';
@@ -43,13 +43,28 @@ export class ContactSectionComponent implements OnInit {
   public animationsLoaded = false;
 
   /**
+   * Protecciones anti-spam/anti-bot del formulario (además de las reglas de
+   * Firestore, que validan la FORMA de los datos pero no pueden detectar bots):
+   * - `formLoadedAt`: un envío casi instantáneo tras cargar la página es típico
+   *   de bots que rellenan formularios automáticamente; se exige un mínimo de
+   *   tiempo antes de aceptar el envío.
+   * - `MIN_SUBMIT_DELAY_MS` / `SUBMIT_COOLDOWN_MS`: además evita reenvíos
+   *   inmediatos repetidos desde la misma pestaña.
+   * El campo "honeypot" (control `website`) se valida en onSubmit().
+   */
+  private formLoadedAt = Date.now();
+  private lastSubmitAt = 0;
+  private readonly MIN_SUBMIT_DELAY_MS = 3000; // 3s: tiempo mínimo realista para llenar el form
+  private readonly SUBMIT_COOLDOWN_MS = 30000; // 30s entre envíos exitosos desde la misma pestaña
+
+  /**
    * Información de contacto mostrada en la sección.
    * IMPORTANTE: Debe estar alineada con el hero, footer y el CV.
    */
   public contactInfo = {
     name: 'Alejandro Villa Villavicencio',
     // Alineado con el título principal del portafolio
-    title: 'Analista TI & Soporte N1/N2 · Desarrollador Frontend Jr',
+    title: 'Ingeniero Informático | Soporte de Aplicaciones · Desarrollo · Datos',
     email: 'alejandro.villa91@gmail.com',
     // Número mexicano: es el que usa para llamadas
     phone: '+52 4925599064',
@@ -59,7 +74,7 @@ export class ContactSectionComponent implements OnInit {
     location: 'Remoto · LATAM',
     linkedin: 'https://www.linkedin.com/in/alejandro-villa-villavicencio/',
     // Enfoque realista según tu perfil actual
-    availability: 'Disponible para roles 100% remotos en Soporte TI N1/N2, ITSM y desarrollo frontend junior.',
+    availability: 'Disponible para roles 100% remotos en Soporte TI N1/N2, desarrollo web/móvil junior o análisis de datos.',
     responseTime: 'Respuesta típica: 24-48 horas'
   };
 
@@ -133,8 +148,12 @@ export class ContactSectionComponent implements OnInit {
       company: ['', [Validators.maxLength(100)]],
       subject: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(2000)]],
-      preferredContact: ['email', [Validators.required]]
+      preferredContact: ['email', [Validators.required]],
+      // Honeypot anti-spam: debe quedar SIEMPRE vacío. No se envía a Firestore.
+      website: ['']
     });
+    // Momento en que se (re)construye el formulario, para la trampa de tiempo mínimo
+    this.formLoadedAt = Date.now();
   }
 
   /**
@@ -143,6 +162,31 @@ export class ContactSectionComponent implements OnInit {
   async onSubmit(): Promise<void> {
     if (this.contactForm.invalid) {
       this.markFormGroupTouched();
+      return;
+    }
+
+    // Cooldown: evita reenvíos inmediatos repetidos desde la misma pestaña
+    const msSinceLastSubmit = Date.now() - this.lastSubmitAt;
+    if (this.lastSubmitAt > 0 && msSinceLastSubmit < this.SUBMIT_COOLDOWN_MS) {
+      const secondsLeft = Math.ceil((this.SUBMIT_COOLDOWN_MS - msSinceLastSubmit) / 1000);
+      this.errorMessage = `Ya enviaste un mensaje. Por favor espera ${secondsLeft}s antes de enviar otro.`;
+      this.submitError = true;
+      return;
+    }
+
+    // Honeypot: si el campo invisible viene con contenido, es un bot. Se descarta
+    // en silencio (sin escribir en Firestore) simulando éxito, para no darle pistas
+    // a scrapers de que fueron detectados.
+    if (this.contactForm.value.website) {
+      console.warn('Envío descartado: honeypot anti-spam activado.');
+      this.simulateSuccessWithoutSending();
+      return;
+    }
+
+    // Trampa de tiempo: un envío casi instantáneo tras cargar la página no es humano.
+    if (Date.now() - this.formLoadedAt < this.MIN_SUBMIT_DELAY_MS) {
+      console.warn('Envío descartado: demasiado rápido para ser una persona.');
+      this.simulateSuccessWithoutSending();
       return;
     }
 
@@ -176,6 +220,7 @@ export class ContactSectionComponent implements OnInit {
 
       // Mostrar éxito y resetear formulario
       this.submitSuccess = true;
+      this.lastSubmitAt = Date.now();
       this.contactForm.reset();
       this.initializeForm();
 
@@ -191,6 +236,22 @@ export class ContactSectionComponent implements OnInit {
     } finally {
       this.isSubmitting = false;
     }
+  }
+
+  /**
+   * Simula un envío exitoso SIN escribir nada en Firestore (usado cuando el
+   * honeypot o la trampa de tiempo detectan un bot). Mostrar "éxito" en vez de
+   * un error evita darle a un script automatizado la señal de que fue bloqueado.
+   */
+  private simulateSuccessWithoutSending(): void {
+    this.submitSuccess = true;
+    this.lastSubmitAt = Date.now();
+    this.contactForm.reset();
+    this.initializeForm();
+
+    setTimeout(() => {
+      this.submitSuccess = false;
+    }, 5000);
   }
 
   /**

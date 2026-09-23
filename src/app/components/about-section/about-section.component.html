@@ -99,6 +99,23 @@
           </div>
         </div>
 
+        <!-- Soporte de Aplicaciones: ciclo de gestión de incidentes (conceptual, sin datos confidenciales) -->
+        <div class="support-process-section about-animate">
+          <h4 class="support-process-title">Soporte de Aplicaciones: Ciclo de Gestión de Incidentes</h4>
+          <p class="support-process-subtitle">
+            Flujo que aplico en soporte N1/N2 con herramientas como ServiceNow, GLPI y Active Directory.
+          </p>
+          <ol class="support-process-flow">
+            <li *ngFor="let step of supportProcessSteps; let last = last" class="support-process-step">
+              <div class="step-badge">
+                <ion-icon [name]="step.icon" class="step-icon"></ion-icon>
+                <span class="step-label">{{ step.label }}</span>
+              </div>
+              <ion-icon *ngIf="!last" name="arrow-forward" class="step-arrow" aria-hidden="true"></ion-icon>
+            </li>
+          </ol>
+        </div>
+
         <!-- Verificación de credenciales (título DuocUC y certificado Python, obtenidos en Chile) -->
         <div class="certifications-section about-animate">
           <h4 class="certifications-title">Verificación de Credenciales</h4>
@@ -158,7 +175,7 @@
               <p class="ai-description">
                 En la era de la IA, mi enfoque profesional combina
                 <strong>mis más de 10 años de experiencia práctica en TI</strong>
-                con herramientas inteligentes para optimizar tareas, mejorar procesos y aumentar la eficiencia en QA y desarrollo frontend.
+                con herramientas inteligentes para optimizar tareas, mejorar procesos y aumentar la eficiencia en soporte, desarrollo y análisis de datos.
               </p>
               <div class="ai-principles">
                 <div class="ai-principle">

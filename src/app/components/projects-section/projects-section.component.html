@@ -15,7 +15,7 @@
       <!-- Filtros de categoría -->
       <div class="projects-filters projects-animate">
         <div class="filters-container">
-          <button 
+          <button
             *ngFor="let filter of filters"
             class="filter-button"
             [class.active]="activeFilter === filter.id"
@@ -33,10 +33,39 @@
         </div>
       </div>
 
+      <!-- Filtro secundario por área profesional (Desarrollo / Datos / Sistemas-Soporte) -->
+      <div class="area-filters projects-animate" role="group" aria-label="Filtrar proyectos por área profesional">
+        <button
+          *ngFor="let area of areaFilters"
+          type="button"
+          class="area-filter-chip"
+          [class.active]="activeArea === area.id"
+          [attr.aria-pressed]="activeArea === area.id"
+          (click)="setActiveArea(area.id)"
+        >
+          <ion-icon [name]="area.icon"></ion-icon>
+          <span>{{ area.label }}</span>
+        </button>
+      </div>
+
+      <!-- Estado vacío: cuando la combinación de filtros (categoría + área) no tiene
+           resultados, en vez de dejar el grid en blanco (se veía como un bug) -->
+      <div class="projects-empty-state projects-animate" *ngIf="getFilteredProjects().length === 0">
+        <ion-icon name="folder-open-outline" class="empty-state-icon"></ion-icon>
+        <h4 class="empty-state-title">Todavía no hay proyectos en esta combinación de filtros</h4>
+        <p class="empty-state-description">
+          Prueba con otra área o categoría, o revisa "Todos los Proyectos".
+        </p>
+        <ion-button fill="outline" (click)="setActiveFilter('all'); setActiveArea('all')">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Ver todos los proyectos
+        </ion-button>
+      </div>
+
       <!-- Grid de proyectos - CORRECCIÓN: Usando getFilteredProjects() -->
-      <div class="projects-grid projects-animate">
-        <div 
-          *ngFor="let project of getFilteredProjects()" 
+      <div class="projects-grid projects-animate" *ngIf="getFilteredProjects().length > 0">
+        <div
+          *ngFor="let project of getFilteredProjects()"
           class="project-card"
           [class.featured]="project.featured"
           [class.wad-project]="project.type === 'game-mod'"
@@ -221,7 +250,7 @@
       </div>
 
       <!-- Sección especial WADs de Doom - ACTUALIZADA -->
-      <div class="doom-section projects-animate" *ngIf="activeFilter === 'all' || activeFilter === 'creative'">
+      <div class="doom-section projects-animate" *ngIf="(activeFilter === 'all' || activeFilter === 'creative') && activeArea === 'all'">
         <div class="doom-card">
           <!-- Fondo decorativo sutil -->
           <div class="doom-bg-decoration"></div>

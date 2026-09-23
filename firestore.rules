@@ -1,9 +1,89 @@
 rules_version = '2';
+
+// Reglas de Firestore del portafolio de Alejandro Villa.
+//
+// El sitio NUNCA lee datos de Firestore desde el cliente (no hay getDocs/onSnapshot
+// en todo el código): solo ESCRIBE en dos colecciones puntuales desde formularios
+// públicos (contact.service.ts y download.service.ts). Por eso no existe una regla
+// general de "allow read: if true" — no hace falta y sería exponer más de lo necesario.
+//
+// Cada colección permite únicamente CREAR documentos nuevos (nunca leer, editar ni
+// borrar desde el cliente) y valida la forma EXACTA de los datos (campos permitidos,
+// tipos, longitudes y valores dentro de listas cerradas), replicando y reforzando las
+// validaciones que ya aplica ContactService/DownloadService en el frontend. Así se
+// evita tanto "allow write: if true" (inseguro) como dejar el formulario roto con
+// "allow write: if false" (como estaba antes).
+//
+// IMPORTANTE (DoS / spam): estas reglas evitan que alguien escriba datos con forma
+// inválida, pero Firestore Security Rules NO pueden limitar la CANTIDAD de escrituras
+// por IP/tiempo (no hay rate limiting nativo aquí). Si en el futuro se detecta spam
+// real en `contact-messages` o `downloads`, la defensa correcta es activar
+// Firebase App Check (reCAPTCHA v3/Enterprise) en la consola de Firebase — eso sí
+// bloquea tráfico de bots/scripts que no vienen de la app real. Ver README.md.
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Mensajes enviados desde el formulario de contacto (contact.service.ts).
+    // Cualquier visitante puede crear un mensaje nuevo, pero nadie puede leer,
+    // modificar ni borrar mensajes desde el cliente (solo se administran desde
+    // la consola de Firebase).
+    match /contact-messages/{messageId} {
+      allow create: if request.resource.data.keys().hasAll(
+                        ['name', 'email', 'subject', 'message', 'preferredContact', 'status', 'read', 'createdAt']
+                      )
+                    // Ningún campo fuera de esta lista (evita inyectar datos/campos arbitrarios)
+                    && request.resource.data.keys().hasOnly(
+                        ['name', 'email', 'phone', 'company', 'subject', 'message', 'preferredContact', 'status', 'read', 'createdAt']
+                      )
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 100
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() > 0
+                    && request.resource.data.email.size() <= 100
+                    // Formato básico de email (mismo patrón que ContactService.validateEmail())
+                    && request.resource.data.email.matches('^[^\\s@]+@[^\\s@]+[.][^\\s@]+$')
+                    && request.resource.data.subject is string
+                    && request.resource.data.subject.size() > 0
+                    && request.resource.data.subject.size() <= 200
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() > 0
+                    && request.resource.data.message.size() <= 2000
+                    && (!('phone' in request.resource.data)
+                        || (request.resource.data.phone is string && request.resource.data.phone.size() <= 20))
+                    && (!('company' in request.resource.data)
+                        || (request.resource.data.company is string && request.resource.data.company.size() <= 100))
+                    // Solo los métodos de contacto reales del formulario (ver contact-message.model.ts)
+                    && request.resource.data.preferredContact in ['email', 'phone', 'whatsapp', 'linkedin']
+                    && request.resource.data.status == 'new'
+                    && request.resource.data.read == false;
+
+      allow read, update, delete: if false;
+    }
+
+    // Registro de descargas/visualizaciones de CV y del WAD (download.service.ts).
+    // Solo analítica interna sin datos personales: se permite crear, nunca leer.
+    match /downloads/{downloadId} {
+      allow create: if request.resource.data.keys().hasAll(['fileId', 'fileName', 'userAgent', 'timestamp'])
+                    && request.resource.data.keys().hasOnly(['fileId', 'fileName', 'userAgent', 'timestamp', 'action'])
+                    // Solo los archivos reales que existen en DownloadService.AVAILABLE_FILES
+                    && request.resource.data.fileId in [
+                        'cv-analista-ti', 'cv-desarrollador-jr', 'cv-analista-datos', 'doom-wad'
+                      ]
+                    && request.resource.data.fileName is string
+                    && request.resource.data.fileName.size() <= 150
+                    && request.resource.data.userAgent is string
+                    && request.resource.data.userAgent.size() <= 500
+                    && (!('action' in request.resource.data) || request.resource.data.action == 'view');
+
+      allow read, update, delete: if false;
+    }
+
+    // Cualquier otra colección no declarada explícitamente: sin acceso desde el
+    // cliente (ni lectura ni escritura). Si en el futuro se agrega una colección
+    // nueva, debe declarar aquí sus propias reglas específicas.
     match /{document=**} {
-      allow read: if true;
-      allow write: if false;
+      allow read, write: if false;
     }
   }
 }

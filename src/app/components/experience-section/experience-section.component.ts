@@ -46,7 +46,7 @@ export class ExperienceSectionComponent implements OnInit, OnDestroy {
     {
       id: 'independent' as const,
       label: 'Experiencia Independiente',
-      description: '19+ años como técnico independiente',
+      description: 'Más de 10 años como técnico independiente freelance',
       icon: 'construct'
     }
   ];
@@ -177,13 +177,15 @@ export class ExperienceSectionComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Calcula años totales de experiencia
-   * @returns Número de años desde 2007
+   * Años de experiencia práctica freelance (trabajo pagado reparando equipos).
+   * CORREGIDO: antes calculaba desde 2007 (cuando empezó por curiosidad personal,
+   * no como trabajo freelance pagado), lo que inflaba la cifra a ~19 años y seguía
+   * creciendo cada año. Valor fijo en 10, alineado con INDEPENDENT_EXPERIENCE en
+   * experience.model.ts y con la skill "hardware-repair" en skill.model.ts.
+   * @returns Años de experiencia freelance
    */
   getTotalYearsOfExperience(): number {
-    const startYear = 2007;
-    const currentYear = new Date().getFullYear();
-    return currentYear - startYear;
+    return 10;
   }
 
   /**

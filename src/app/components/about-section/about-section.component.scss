@@ -238,6 +238,81 @@
 // ========================================
 // VERIFICACIÓN DE CREDENCIALES
 // ========================================
+// Soporte de Aplicaciones: ciclo de gestión de incidentes
+.support-process-section {
+  margin-bottom: var(--spacing-3xl);
+}
+
+.support-process-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.support-process-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--ion-text-color-secondary);
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+.support-process-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.support-process-step {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.step-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--ion-surface-color);
+  border: 1px solid var(--ion-border-color);
+  border-radius: var(--border-radius-lg);
+  white-space: nowrap;
+}
+
+.step-icon {
+  font-size: 1.1rem;
+  color: var(--ion-color-primary);
+  flex-shrink: 0;
+}
+
+.step-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--ion-text-color);
+}
+
+.step-arrow {
+  color: var(--ion-text-color-secondary);
+  flex-shrink: 0;
+
+  @media (max-width: 767px) {
+    transform: rotate(90deg);
+  }
+}
+
 .certifications-section {
   margin-bottom: var(--spacing-3xl);
 }
