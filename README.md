@@ -6,17 +6,27 @@ Portafolio profesional desarrollado con **Angular**, **Ionic** y **Firebase**. P
 
 ## Stack
 
-- [Angular](https://angular.dev/) 18
-- [Ionic Framework](https://ionicframework.com/) 8 (componentes UI)
-- [Firebase](https://firebase.google.com/) (Firestore para el formulario de contacto)
-- [Capacitor](https://capacitorjs.com/) (soporte multiplataforma)
-- TypeScript, SCSS
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![Ionic](https://img.shields.io/badge/Ionic-3880FF?style=for-the-badge&logo=ionic&logoColor=white)
+![Capacitor](https://img.shields.io/badge/Capacitor-119EFF?style=for-the-badge&logo=capacitor&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Sass](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+
+| Capa | Tecnología |
+|---|---|
+| Lenguaje | [TypeScript](https://www.typescriptlang.org/) |
+| Framework | [Angular](https://angular.dev/) 18 |
+| UI / Componentes | [Ionic Framework](https://ionicframework.com/) 8 |
+| Multiplataforma | [Capacitor](https://capacitorjs.com/) |
+| Backend / Datos | [Firebase](https://firebase.google.com/) (Firestore) |
+| Estilos | SCSS / Sass |
 
 ## Características
 
 - Diseño responsive de una sola página con secciones: Hero, Sobre mí, Experiencia, Habilidades, Proyectos y Contacto.
 - Modo claro/oscuro (`theme.service.ts`).
-- Formulario de contacto conectado a Firestore, con validación y sanitización de datos en el cliente (`contact.service.ts`).
+- Contacto directo por email, teléfono, WhatsApp y LinkedIn (sin intermediarios), más un formulario opcional con validación y sanitización de datos en el cliente que respalda las consultas en Firestore (`contact.service.ts`).
 - Descarga de CV (`download.service.ts`).
 - SEO básico configurable por sección (`seo.service.ts`).
 - Página 404 personalizada.
@@ -92,7 +102,7 @@ npm test
 **Alejandro Villa Villavicencio**
 Ingeniero Informático | Soporte TI
 
-- GitHub: [@DemWolfXZ](https://github.com/DemWolfXZ)
+- GitHub: [@alejandro-villa-dev](https://github.com/alejandro-villa-dev)
 
 ## Licencia
 

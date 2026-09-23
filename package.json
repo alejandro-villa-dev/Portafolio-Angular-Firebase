@@ -2,7 +2,7 @@
   "name": "portafolio-alejandro-villa",
   "version": "0.0.1",
   "author": "Alejandro Villa Villavicencio",
-  "homepage": "https://github.com/DemWolfXZ/portafolio",
+  "homepage": "https://github.com/alejandro-villa-dev/Portafolio-Angular-Firebase",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
